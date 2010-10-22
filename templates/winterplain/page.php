@@ -20,9 +20,7 @@
 		<div class="left">
 			<h1 id="site_title"><?php echo SITE_NAME; ?></h1>
 			<div id="site_description"><?php echo SITE_SLOGAN; ?></div>
-		</div>
-
-		<a href="#" class="button feed right"><span></span></a>
+		</div>	
 
 		<div class="clearer"></div>
 
@@ -61,7 +59,7 @@
 	<div id="footer">
 
 		<div class="left">
-			&copy; 2007 <a href="#">Website.com</a> | <a href="#top">Go to top</a>
+			&copy; 2010 <a href="#">YourSite.com</a> | <a href="#top">Go to top</a>
 		</div>
 
 		<div class="right"><a href="http://templates.arcsin.se/">Website template</a> by <a href="http://arcsin.se/">Arcsin</a></div>

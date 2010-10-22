@@ -13,4 +13,3 @@ ci vorra' del tempo prima che diventi realmente stabile.</p>
 	<li>estendibile tramite plugin</li>
 	<li>requisiti minimi di installazione (solo PHP > 5.2)</li>
 </ul>
-<h1>News</h1>
