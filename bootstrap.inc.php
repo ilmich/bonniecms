@@ -16,9 +16,11 @@
 	define ("DEFAULT_PAGE",$conf['DEFAULT_PAGE']);
 	
 	//load all hooks
-	foreach (glob(APP_ROOT."/plugins/*.php") as $file) {
-		require_once $file;
-	}
+	$plugins = glob(APP_ROOT."/plugins/*.php");
+	if ($plugins)
+		foreach ($plugins as $file) {
+			require_once $file;
+		}
 	
 	//load menus
 	require_once(APP_ROOT."/data/menus.php");
