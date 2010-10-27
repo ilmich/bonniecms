@@ -34,7 +34,7 @@ class HttpResponse extends DynaBean {
 		$this->_body = $body;
 		
 		return $this;
-	}
+	}	
 	
 	public function getBody() {
 		return $this->_body;		

@@ -109,14 +109,14 @@ abstract class Auth
 	public function requireAdmin($url)
 	{
 		if(!$this->loggedIn() || $this->level != 'admin')
-		redirect($url);
+			HttpRequest::getHttpRequest()->redirect($url);
 	}
 
 	// Helper function that redirects away from 'member only' pages
 	public function requireUser($url)
 	{
 		if(!$this->loggedIn())
-		redirect($url);
+			HttpRequest::getHttpRequest()->redirect($url);
 	}
 
 	// Login a user simply by passing in their username or id. Does

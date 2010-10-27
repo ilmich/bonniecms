@@ -23,20 +23,18 @@ class ClassLoader
 	}
 
 	public function addClassPath($path) {
-
-		if ($path !== null && $path !== '') {
-			$path = $this->_fixPath($path);
-
-			if (!array_search($path,$this->classpath)) {
-				array_unshift($this->classpath,$path);
-			}
-		}
-		 
+ 
+		$path = String::slash($path);
+		
 		if (!file_exists($path) || !is_dir($path)) {
 			throw new ClydePhpException("Unable to add path $path to classloader: is not a dir or not exist");
 		}
+		
+		if (!array_search($path,$this->classpath)) {
+			array_unshift($this->classpath,$path);
+		}
 		 
-		foreach ($this->_getDirs($path) as $dir) {
+		foreach (glob($path."/*",GLOB_ONLYDIR ) as $dir) {
 			$this->addClassPath($dir);
 		}
 		
@@ -54,31 +52,6 @@ class ClassLoader
 		 
 		return false;
 		 
-	}
-
-	//get the list of directory contained in a path
-	private function _getDirs($path) {
-		 
-		$path = $this->_fixPath($path);
-		 
-		$dirs = array();
-		 
-		$dh  = opendir($path);
-		while (false !== ($filename = readdir($dh))) {
-			if ($filename != "." && $filename != "..") {
-				if (is_dir($path.$filename)) {
-					$dirs[]=$path.$filename;
-				}
-			}
-		}
-		closedir($dh);
-
-		return $dirs;
-	}
-
-	private function _fixPath($path) {
-		 
-		return String::slash($path);
 	}
 
 	public static function autoload($class_name)
