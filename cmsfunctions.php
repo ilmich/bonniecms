@@ -7,13 +7,17 @@
 		return Config::get("site");
 	}
 	
+	function getDataDir() {
+		return DOC_ROOT."data/";
+	}
+	
 	function getTemplateName() {
 		
 		$conf = getCmsConfig();
-		if (!isset($conf['TEMPLATE']))
+		if (!isset($conf["TEMPLATE"]))
 			return null;
 			
-		return $conf['TEMPLATE'];
+		return $conf["TEMPLATE"];
 	}
 
 	function makeLink($id,$type="page") {
@@ -21,6 +25,8 @@
 		switch ($type) {
 			case 'page':
 				return "index.php?page=".String::slugify($id);
+			case 'download':
+				 return "services/download.php?file=".$id;
 			default:
 				return null;
 		}
