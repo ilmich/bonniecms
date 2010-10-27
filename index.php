@@ -10,27 +10,33 @@
 	$pageId = String::slugify($req->getParam("page"));	
 	if (is_null($pageId) || $pageId === "") {
 		$pageId = DEFAULT_PAGE;
-	}
+	}	
 	
-	if (!is_readable("data/pages/".$pageId.".metadata.php")) {
-		$page = array("title" => "Pagina non trovata");
-		$content = "La pagina che stai cercando non esiste";	
-	}else {
+	if (is_readable("data/pages/".$pageId.".metadata.php")) {
 		require_once "data/pages/".$pageId.".metadata.php";
 		$content = new Template("data/pages/".$pageId.".php");
-		$content = $content->render();
-	}
+		$page["content"] = $content->render();	
+	}else {
+		//try to find page in database	
+		$db = Database::getDatabase("pages");
+	
+		if ($row = $db->getRow($pageId,false)) {
+			$page = array("title" => $row[$pageId]["title"]);
+			$page["content"] = $row[$pageId]["content"];
+		}
+		else {
+			$page = array("title" => Lang::getMessage("PAGE_NOT_FOUND_TITLE"),
+						  "content" => Lang::getMessage("PAGE_NOT_FOUND"));			
+		}	
+	}		
 		
-	if (isset($page['template']))
-		$template = $page['template'];
-	else{
-		$template = getTemplateName();	
-	}
+	$template = getTemplateName();
+	
+	if (isset($page["template"]))
+		$template = $page["template"];	
 		
 	$tpl = new Template("templates/".$template."/page.php");
-	$tpl->fromArray($page);	
-	$tpl->content= $content;
-	$tpl->allowComments=false;
+	$tpl->fromArray($page);
 	$tpl->pageId = $pageId;
 	
 	EventManager::getInstance()->getEvent("onRender")->raise($req,$tpl);	
