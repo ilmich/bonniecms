@@ -2,6 +2,47 @@
 
 	class File {
 		
+		public static function lock($fileName,$polling=1,$retry=10) {
+						
+			$lockDir = $fileName.".lck";			
+			
+			$fp=false;		
+			if(!is_int($polling) || $polling < 1) 
+				$polling = 1;
+	
+			if (!is_int($retry) || $retry < 1) {
+				$retry = intval((ini_get('max_execution_time')/$polling));
+			}
+						
+			if ($retry < 1) {
+				$retry = 10;
+			}		
+			/**
+			 * Code section
+			 */
+			
+			// Create the directory and hang in the case of a preexisting lock
+			while(!($fp = @mkdir($lockDir)) && $retry-->0) {							
+				sleep($polling);	
+			}	
+			
+			// Successful lock
+			return $fp;
+			
+		}
+		
+		public static function release($fileName) {
+				
+			$lockDir = $fileName.".lck";
+			
+			// Delete the directory with the extension '.lck'
+			if(!@rmdir($lockDir))
+				return false;
+			// Successful release
+			return true;
+			
+		}
+		
 		// Returns a file's mimetype based on its extension
 		public static function mimeType($filename, $default = 'application/octet-stream')
 		{

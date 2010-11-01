@@ -14,7 +14,7 @@ class HttpRequest extends DynaBean {
 	private $params = array();
 	 
 	/** additional HTTP headers not prefixed with HTTP_ in $_SERVER superglobal */
-	var $add_headers = array('CONTENT_TYPE', 'CONTENT_LENGTH','QUERY_STRING','REQUEST_URI','PATH_INFO');
+	var $add_headers = array('CONTENT_TYPE', 'CONTENT_LENGTH','QUERY_STRING','REQUEST_URI','PATH_INFO','REMOTE_ADDR');
 
 	/**
 		* Construtor
@@ -123,6 +123,22 @@ class HttpRequest extends DynaBean {
 		
 		return false;
 		
+	}
+	
+	public function getRemoteAddr() {
+		return $this->getHeader('REMOTE-ADDR');
+	}
+	
+	public function getReferer() {
+		return $this->getHeader("REFERER");
+	}
+	
+	public function getUserAgent() {
+		return $this->getHeader("USER-AGENT");
+	}
+	
+	public function getQueryString() {
+		return $this->getHeader("QUERY-STRING");
 	}
 
 	/**
