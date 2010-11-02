@@ -45,17 +45,20 @@ class Template {
 		return BeanUtils::fromArray($this,$arr);
 	}
 
-	public function render() {
+	public function render($filename=null) {
 		 
 		extract($this->_data,EXTR_SKIP);
 
-		if (!is_readable($this->_fileName)) {
-			throw new TemplateException("Template ".$this->_fileName." not found");
+		if (is_null($filename)) {
+			$filename = $this->_fileName;
 		}
-
+		
+		if (!is_readable($filename)) {
+			throw new TemplateException("Template ".$filename." not found");
+		}		
 		ob_start();
 
-		include $this->_fileName;
+		include $filename;
 		 
 		return ob_get_clean();
 		 
