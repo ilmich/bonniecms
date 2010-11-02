@@ -1,6 +1,5 @@
 <?php	
-	
-	require_once "cmsfunctions.php";	
+		
 	require_once "cmsclasses.php";	
 	
 	Config::getConfig()->site=require_once getDataDir()."config.php";;

@@ -1,5 +1,6 @@
 <?php
 		require_once "../includes/master.inc.php";
+		require_once "../cmsfunctions.php";
 		
 		$resp = new HttpResponse();
 		$filename = HttpRequest::getHttpRequest()->getParam("file");		
@@ -12,7 +13,7 @@
 		$filename=str_replace(array("../","./"),array("",""),$filename);
 		
 		//translate path
-		$filename="../data/downloads/".$filename;
+		$filename=getDataDir()."downloads/".$filename;
 		
 		if(!file_exists($filename) || !is_readable($filename)) {
 			$resp->setStatus(404)->setBody("File $filename not found")->send();
