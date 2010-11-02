@@ -49,7 +49,7 @@
 		
 		public function getDatabase($name) {
 			if(!isset(self::$me[$name])) {
-				self::$me[$name] = new Pecora(DOC_ROOT."data/",$name);
+				self::$me[$name] = new Pecora(getDataDir(),$name);
 			}
 			
 			return self::$me[$name];

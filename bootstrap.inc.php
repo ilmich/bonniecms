@@ -1,9 +1,9 @@
 <?php	
 	
 	require_once "cmsfunctions.php";	
-	require_once "cmsclasses.php";
+	require_once "cmsclasses.php";	
 	
-	Config::getConfig()->site=require_once "data/config.php";;
+	Config::getConfig()->site=require_once getDataDir()."config.php";;
 	
 	$conf = getCmsConfig();
 	
@@ -12,7 +12,7 @@
 	define ("SITE_SLOGAN",$conf["SITE_SLOGAN"]);	
 	define ("DEFAULT_PAGE",$conf["DEFAULT_PAGE"]);
 
-	//load lang
+	//load lang	
 	Lang::setLocale($conf['LANG']);
 	Lang::loadMessages("core");
 	Lang::loadMessages("menu");
@@ -25,7 +25,7 @@
 		}
 	
 	//load menus
-	require_once(APP_ROOT."/data/menus.php");
+	require_once(getDataDir()."menus.php");
 	
 	//register shutdown function
 	register_shutdown_function("sessionEnd");

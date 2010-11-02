@@ -13,10 +13,10 @@
 	}	
 	
 	//check if the page is avaible on filesystem
-	if (is_readable("data/pages/".$pageId.".metadata.php")) {
-		require_once "data/pages/".$pageId.".metadata.php";
+	if (is_readable(getDataDir()."pages/".$pageId.".metadata.php")) {
+		require_once getDataDir()."pages/".$pageId.".metadata.php";
 		//set the filename of the page		
-		$contentFile = "data/pages/".$pageId.".php";		
+		$contentFile = getDataDir()."pages/".$pageId.".php";		
 	}else {
 		//try to find page in database	
 		$db = Database::getDatabase("pages");
