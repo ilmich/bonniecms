@@ -1,6 +1,7 @@
 <?php
 
 	require_once CLYDEPHP_VENDOR."pecora/pecora.php";
+	require_once "cmsfunctions.php";
 
 	class Lang {
 		
@@ -21,7 +22,11 @@
 		}
 		
 		public static function setLocale($locale) {
-			self::getLang()->locale=$locale;			
+			self::getLang()->locale=$locale;		
+		}
+		
+		public static function getLocale() {
+			return self::getLang()->locale;			
 		}
 		
 		public static function loadMessages($name) {

@@ -2,29 +2,37 @@
 
 	require_once "includes/master.inc.php";		
 		
-	$req = HttpRequest::getHttpRequest();	
-	$resp = new HttpResponse();
+	$resp = new HttpResponse();	
+		
+	//raise processRequest event
+	EventManager::getInstance()->getEvent("processRequest")->raise($req);
 	
-	EventManager::getInstance()->getEvent("processRequest")->raise($req);	
 	//compute page
 	$pageId = String::slugify($req->getParam("page"));	
 	if (is_null($pageId) || $pageId === "") {
 		$pageId = DEFAULT_PAGE;
 	}	
 	
+	$lang = Lang::getLocale();
 	//check if the page is avaible on filesystem
-	if (is_readable(getDataDir()."pages/".$pageId.".metadata.php")) {
-		require_once getDataDir()."pages/".$pageId.".metadata.php";
-		//set the filename of the page		
-		$contentFile = getDataDir()."pages/".$pageId.".php";		
+	if (is_readable(getDataDir()."pages/".$pageId.".metadata.php") || is_readable(getDataDir()."pages/".$pageId.".".$lang.".metadata.php")){		
+		//check for localized version
+		if (is_readable(getDataDir()."pages/".$pageId.".".$lang.".metadata.php")) {
+			require_once getDataDir()."pages/".$pageId.".".$lang.".metadata.php";
+			$contentFile = getDataDir()."pages/".$pageId.".".$lang.".php";		
+		}else { 
+			require_once getDataDir()."pages/".$pageId.".metadata.php";
+			//set the filename of the page		
+			$contentFile = getDataDir()."pages/".$pageId.".php";
+		}		
 	}else {
 		//try to find page in database	
 		$db = Database::getDatabase("pages");
 		
 		if (file_exists($db->table(true))) {
-			if ($row = $db->getRow($pageId,false)) {
-				$page = array("title" => $row[$pageId]["title"]);
-				$page["content"] = $row[$pageId]["content"];
+			if ($row = $db->getRow(array($pageId.".".$lang,$pageId),false)) {
+				//shift first result in order to show the translated page, if exists				
+				$page = array_shift($row);				
 			}
 		}
 		

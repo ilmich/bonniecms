@@ -20,11 +20,16 @@
 		return $conf["TEMPLATE"];
 	}
 
-	function makeLink($id,$type="page") {
+	function makeLink($id,$locale=null,$type="page") {
+				
+		$lang="";
+		$conf = getCmsConfig();
+		if (!is_null($locale) && $locale !== $conf['LANG'])
+			$lang="&lang=".$locale;
 		
 		switch ($type) {
-			case 'page':
-				return "index.php?page=".String::slugify($id);
+			case 'page':				
+				return "index.php?page=".String::slugify($id).$lang;
 			case 'download':
 				 return "services/download.php?file=".$id;
 			default:

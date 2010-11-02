@@ -12,8 +12,14 @@
 	define ("SITE_SLOGAN",$conf["SITE_SLOGAN"]);	
 	define ("DEFAULT_PAGE",$conf["DEFAULT_PAGE"]);
 
-	//load lang	
-	Lang::setLocale($conf['LANG']);
+	$req = HttpRequest::getHttpRequest();
+	
+	//load lang
+	if (!is_null($req->getParam('lang'))) {
+		Lang::setLocale($req->getParam('lang'));
+	}else {
+		Lang::setLocale($conf['LANG']);
+	}
 	Lang::loadMessages("core");
 	Lang::loadMessages("menu");
 		
@@ -22,8 +28,8 @@
 	if ($plugins)
 		foreach ($plugins as $file) {
 			require_once $file;
-		}
-	
+		}		
+		
 	//load menus
 	require_once(getDataDir()."menus.php");
 	
