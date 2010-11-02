@@ -11,5 +11,6 @@ ci vorra' del tempo prima che diventi realmente stabile.</p>
 	<li>creazione immediata di nuove pagine</li>
 	<li>sistema di template</li>
 	<li>estendibile tramite plugin</li>
+	<li>sistema di localizzazione dei contenuti</li>
 	<li>requisiti minimi di installazione (solo PHP >= 5.1)</li>
 </ul>

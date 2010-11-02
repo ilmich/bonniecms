@@ -1,17 +1,22 @@
 <h3>Installazione</h3>
 <p>Per installare BonnieCMS e' sufficiente estrarre l'archivio della distribuzione in una cartella qualsiasi del vostro webserver.</p>
 <p>Una volta estratto l'archivio bisogna editare il file
-	<code>config.ini</code>
+	<code>data/config.php</code>
 presente nella cartella principale e adattarlo alle proprie esigenze.
 </p>
 <p>
 Ecco un esempio di configurazione realistica:
-<code>[site]
-WEB_ROOT=http://www.yourhost.com
-SITE_NAME=My Title
-SITE_SLOGAN=My slogan
-DEFAULT_PAGE=home
-TEMPLATE=winterplain
+<code>&lt;?php
+
+	$site['WEB_ROOT'] = "http://localhost/phpapps/bonniecms";
+	$site['SITE_NAME'] = "BonnieCMS SampleSite";
+	$site['SITE_SLOGAN'] = "...keep it simple...";
+	$site['DEFAULT_PAGE'] = "home";
+	$site['TEMPLATE'] = "winterplain";	
+	$site['LANG']="en";
+	
+	return $site;
+	
 </code>
 </p>
 <p>
@@ -50,8 +55,7 @@ Al momento i menu in BonnieCMS sono configurati all'interno del file:
 
 	$menu_list = array(
 		"top_menu" => array(
-			"home" => array(makeLink("home"),"Home"),
-			"download" => array(makeLink("download"),"Download"),
+			"home" => array(makeLink("home"),"Home"),	
 			"getstarted" => array(makeLink("getstarted"),"Get Started")
 			<b>,"welcome" => array(makeLink("welcome"),"Welcome")</b>
 			)
