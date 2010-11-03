@@ -11,6 +11,10 @@
 		return DOC_ROOT."data/";
 	}
 	
+	function getLogsDir() {
+		return DOC_ROOT."logs/";
+	}
+	
 	function getTemplateName() {
 		
 		$conf = getCmsConfig();
