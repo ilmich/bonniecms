@@ -12,7 +12,7 @@
 	}
 	
 	function getLogsDir() {
-		return DOC_ROOT."logs/";
+		return DOC_ROOT."logs/"; 
 	}
 	
 	function getTemplateName() {
