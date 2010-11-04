@@ -3,9 +3,6 @@
 	require_once "includes/master.inc.php";		
 		
 	$resp = new HttpResponse();	
-		
-	//raise processRequest event
-	EventManager::getInstance()->getEvent("processRequest")->raise($req);
 	
 	//compute page
 	$pageId = String::slugify($req->getParam("page"));	
