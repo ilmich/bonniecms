@@ -5,8 +5,14 @@
 		public static function lock($fileName,$polling=1,$retry=10) {
 						
 			$lockDir = $fileName.".lck";			
+
+			//special lock with null retry and polling
+			if (is_null($polling) && is_null($retry)) {
+				return @mkdir($lockDir); 
+			}
 			
-			$fp=false;		
+			$fp=false;	
+			
 			if(!is_int($polling) || $polling < 1) 
 				$polling = 1;
 	
@@ -22,7 +28,7 @@
 			 */
 			
 			// Create the directory and hang in the case of a preexisting lock
-			while(!($fp = @mkdir($lockDir)) && $retry-->0) {							
+			while(!($fp = @mkdir($lockDir)) && $retry-->0) {				
 				sleep($polling);	
 			}	
 			
