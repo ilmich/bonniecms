@@ -15,6 +15,10 @@
 		return DOC_ROOT."logs/"; 
 	}
 	
+	function getConfDir() {
+		return DOC_ROOT."conf/";
+	}
+	
 	function getTemplateName() {
 		
 		$conf = getCmsConfig();
@@ -78,4 +82,3 @@
 		return $out;
 	}
 		
-?>

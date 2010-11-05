@@ -2,8 +2,17 @@
 		
 	require_once "cmsclasses.php";	
 	
-	Config::getConfig()->site=require_once getDataDir()."config.php";;
-	
+	//load config files
+	$confs = glob(getConfDir()."*.php");
+	if ($confs)
+		foreach ($confs as $conf) {
+			$arr = require_once $conf; 
+			if (is_array($arr)) {
+				$name = basename($conf,".php");
+				Config::getConfig()->$name = $arr;
+			}
+		}
+		
 	$conf = getCmsConfig();
 	
 	define ("WEB_ROOT",String::slash($conf["WEB_ROOT"]));
@@ -45,4 +54,3 @@
 	function sessionEnd() {		
 		EventManager::getInstance()->getEvent("sessionEnd")->raise();
 	}
-?>
