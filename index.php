@@ -5,7 +5,8 @@
 	$resp = new HttpResponse();	
 	
 	//compute page
-	$pageId = String::slugify($req->getParam("page"));	
+	$pageId = String::slugify($req->getParam("page"));
+		
 	if (is_null($pageId) || $pageId === "") {
 		$pageId = DEFAULT_PAGE;
 	}	
@@ -15,10 +16,10 @@
 	if (is_readable(getDataDir()."pages/".$pageId.".metadata.php") || is_readable(getDataDir()."pages/".$pageId.".".$lang.".metadata.php")){		
 		//check for localized version
 		if (is_readable(getDataDir()."pages/".$pageId.".".$lang.".metadata.php")) {
-			require_once getDataDir()."pages/".$pageId.".".$lang.".metadata.php";
+			$page = require_once getDataDir()."pages/".$pageId.".".$lang.".metadata.php";
 			$contentFile = getDataDir()."pages/".$pageId.".".$lang.".php";		
 		}else { 
-			require_once getDataDir()."pages/".$pageId.".metadata.php";
+			$page = require_once getDataDir()."pages/".$pageId.".metadata.php";
 			//set the filename of the page		
 			$contentFile = getDataDir()."pages/".$pageId.".php";
 		}		
@@ -58,4 +59,3 @@
 	EventManager::getInstance()->getEvent("processResponse")->raise($req,$resp);	
 	$resp->send();	
 
-?>
