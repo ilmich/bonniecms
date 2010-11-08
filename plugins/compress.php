@@ -4,21 +4,11 @@
 	
 	function compressResponse($req,$resp) {
 		
-		$accept = $req->getHeader("ACCEPT-ENCODING");
-		$encoding = false;
-		
-		if (strpos($accept, 'x-gzip') !== false ){
-        	$encoding = 'x-gzip';
-		}
-		
-		if (strpos($accept, 'gzip') !== false ){
-        	$encoding = 'gzip';
-		}
+		$encoding = $req->getCompressionEncoding();		
 		
 		if (!$encoding) return;
-				
-		$resp->addHeader("Content-Encoding",$encoding);		 
-        $body = gzencode($resp->getBody(), 9,FORCE_GZIP);		
-		$resp->setBody($body);
 		
+		$resp->addHeader("Content-Encoding",$encoding)
+			 ->compressBody();		 
+        		
 	}
