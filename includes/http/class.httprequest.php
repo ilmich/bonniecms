@@ -1,6 +1,6 @@
 <?php
 
-class HttpRequest extends DynaBean {
+class HttpRequest {
 
 	// Singleton object. Leave $me alone.
 	private static $me;
@@ -156,6 +156,23 @@ class HttpRequest extends DynaBean {
 		*/
 	public function getHeaders() {
 		return $this->headers;
+	}
+	
+	public function getCompressionEncoding() {
+		
+		$accept = $this->getHeader("ACCEPT-ENCODING");
+		$encoding = false;
+		
+		if (strpos($accept, 'x-gzip') !== false ){
+        	$encoding = 'x-gzip';
+		}
+		
+		if (strpos($accept, 'gzip') !== false ){
+        	$encoding = 'gzip';
+		}
+		
+		return $encoding;
+		
 	}
 
 	/**

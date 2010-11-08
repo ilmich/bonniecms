@@ -34,9 +34,11 @@ class ClassLoader
 			array_unshift($this->classpath,$path);
 		}
 		 
-		foreach (glob($path."/*",GLOB_ONLYDIR ) as $dir) {
-			$this->addClassPath($dir);
-		}
+		$dirs= glob($path."/*",GLOB_ONLYDIR);
+		if ($dirs)
+			foreach ($dirs as $dir) {
+				$this->addClassPath($dir);
+			}
 		
 		return $this;
 		 
