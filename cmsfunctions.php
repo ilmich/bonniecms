@@ -19,6 +19,14 @@
 		return DOC_ROOT."conf/";
 	}
 	
+	function getTemplateDir($tplName=null) {
+		if (is_null($tplName)) {
+			return DOC_ROOT."templates/";
+		}
+		
+		return DOC_ROOT."templates/".$tplName."/";	
+	}
+	
 	function getTemplateName() {
 		
 		$conf = getCmsConfig();
@@ -26,6 +34,26 @@
 			return null;
 			
 		return $conf["TEMPLATE"];
+	}
+	
+	function loadTemplate($file,$tplName=null) {
+		
+		if ( (is_null($tplName) || $tplName === "") &&
+			 (is_null($file) || $file === "")) 
+			return null;
+			
+		//try to load first in the template dir
+		if (is_readable(getTemplateDir($tplName).$file)) {
+			return new Template(getTemplateDir($tplName).$file);
+		}
+		
+		//try to load in the root template dir
+		if (is_readable(getTemplateDir().$file)) {
+			return new Template(getTemplateDir().$file);
+		}
+		
+		return null;
+		
 	}
 
 	function makeLink($id,$locale=null,$type="page") {

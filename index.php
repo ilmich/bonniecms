@@ -39,13 +39,19 @@
 						  "content" => Lang::getMessage("PAGE_NOT_FOUND"));			
 		}	
 	}		
-		
+			
+	if (isset($page["template"])) {
+		//override template configuration setting
+		$conf["TEMPLATE"] = $page["template"];
+		Config::getConfig()->site = $conf;		
+	}
+
 	$template = getTemplateName();
-	
-	if (isset($page["template"]))
-		$template = $page["template"];	
 		
-	$tpl = new Template("templates/".$template."/page.php");
+	$tpl = loadTemplate("page.php",$template);
+	if (is_null($tpl)) {		
+		die ("Unable to load template for rendering");		
+	}
 	$tpl->fromArray($page);
 	
 	//if filesystem mode is activated, load and render the page
