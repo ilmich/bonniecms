@@ -19,15 +19,14 @@
 	define ("SITE_NAME",$conf["SITE_NAME"]);
 	define ("SITE_SLOGAN",$conf["SITE_SLOGAN"]);	
 	define ("DEFAULT_PAGE",$conf["DEFAULT_PAGE"]);	
-		
-	//load all hooks
-	$plugins = glob(APP_ROOT."/plugins/*.php");
-	if ($plugins)
-		foreach ($plugins as $file) {
-			require_once $file;
-		}		
 
-		//register shutdown function
+	if (is_array(Config::get("plugins"))) {
+		foreach (Config::get("plugins") as $plugin) {
+			require_once getPluginsDir().$plugin.".php";
+		}
+	}
+
+	//register shutdown function
 	register_shutdown_function("sessionEnd");
 	
 	Session::getInstance()->start("bonniecms");

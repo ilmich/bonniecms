@@ -19,6 +19,10 @@
 		return DOC_ROOT."conf/";
 	}
 	
+	function getPluginsDir() {
+		return DOC_ROOT."plugins/";
+	}
+	
 	function getTemplateDir($tplName=null) {
 		if (is_null($tplName)) {
 			return DOC_ROOT."templates/";
@@ -38,22 +42,29 @@
 	
 	function loadTemplate($file,$tplName=null) {
 		
-		if ( (is_null($tplName) || $tplName === "") &&
+		$tFile = findTemplate($file,$tplName);
+		if (is_null($tFile)) return null;
+				
+		return new Template($tFile);
+		
+	}
+	
+	function findTemplate($file,$tplName) {
+			if ( (is_null($tplName) || $tplName === "") &&
 			 (is_null($file) || $file === "")) 
 			return null;
 			
 		//try to load first in the template dir
 		if (is_readable(getTemplateDir($tplName).$file)) {
-			return new Template(getTemplateDir($tplName).$file);
+			return getTemplateDir($tplName).$file;
 		}
 		
 		//try to load in the root template dir
 		if (is_readable(getTemplateDir().$file)) {
-			return new Template(getTemplateDir().$file);
+			return getTemplateDir().$file;
 		}
 		
-		return null;
-		
+		return null;	
 	}
 
 	function makeLink($id,$locale=null,$type="page") {
