@@ -1,0 +1,17 @@
+BonnieCMS is a minimalist CMS suitable for small and medium-sized sites.
+This cms does not use any type of traditional database, the data is stored through a database that works with flat files.
+
+The fact that it is minimalist, not to say that it is also in the number of features implemented.
+BonnieCMS is minimal because its architecture has been designed to be as simple as possible.
+
+He is currently in full development and version will be enriched with many new features, so there will be some time before it becomes really stable.
+
+BonnieCMS is totally free, and is released under the BSD license.
+
+Features
+
+- on a flat file database
+- template system
+- extensible through plugins
+- multilanguage support
+- minimum installation requirements (only PHP> = 5.1)
