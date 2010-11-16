@@ -1,7 +1,7 @@
 <?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?php	
 	
-	$cacheTimeout=10; //timeout in seconds
+	$cacheTimeout=60; //timeout in seconds
 
 	if (is_writable(getDataDir())) {
 		EventManager::getInstance()->getEvent("processRequest")->subscribe("cacheRequest");
@@ -10,21 +10,21 @@
 	
 	function cacheRequest($req) {
 		
-		$db = Database::getDatabase("cache");
+		$db = Database::getDatabase("cache");		
 		
 		$cacheid = $req->getHeader("REQUEST-URI");
 		if (file_exists($db->table(true))) {
-			if ($db->lock()) {
-				if ($row = $db->getRow($cacheid,false)) {
+			if (File::lock($db->table(true),null,null)) {
+				if ($row = $db->getRow($cacheid,false)) {	
 					//is valid
 					if ($row[$cacheid]['expiration']>time()) {							
-						$resp = $row[$cacheid]['data'];				
+						$resp = $row[$cacheid]['data'];										
 						$resp->send();
-						$db->release();
+						File::release($db->table(true));
 						exit();
 					}
 				}	
-				$db->release();
+				File::release($db->table(true));
 			}
 		}		
 	}
@@ -35,9 +35,10 @@
 		
 		$db = Database::getDatabase("cache");
 		$cacheid = $req->getHeader("REQUEST-URI");
-		if ($db->lock()) {
+		
+		if (File::lock($db->table(true),null,null)) {
 			$db->insertRow(array($cacheid=>array("data"=>$resp,"expiration"=>time()+$cacheTimeout)),false);
-			$db->release();
+			File::release($db->table(true));
 		}		
 	}
 	
