@@ -8,15 +8,15 @@
 	}
 	
 	function getDataDir() {
-		return DOC_ROOT."data/";
+		return APP_ROOT."data/";
 	}
 	
 	function getLogsDir() {
-		return DOC_ROOT."logs/"; 
+		return APP_ROOT."logs/"; 
 	}
 	
 	function getConfDir() {
-		return DOC_ROOT."conf/";
+		return APP_ROOT."conf/";
 	}
 	
 	function getPluginsDir() {
@@ -29,7 +29,7 @@
 		}
 		
 		return DOC_ROOT."templates/".$tplName."/";	
-	}
+	}	
 	
 	function getTemplateName() {
 		
