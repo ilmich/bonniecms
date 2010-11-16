@@ -29,9 +29,6 @@
 	<div class="path" id="nav">
 
 		<?php echo buildMenu('top_menu'); ?>
-		<div style="float: right;">
-		<?php echo showThemeSwitcher(); ?>
-		</div>
 		<div class="clearer"></div>
 
 	</div>
