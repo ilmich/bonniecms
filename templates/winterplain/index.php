@@ -29,7 +29,9 @@
 	<div class="path" id="nav">
 
 		<?php echo buildMenu('top_menu'); ?>
-
+		<div style="float: right;">
+		<?php echo showThemeSwitcher(); ?>
+		</div>
 		<div class="clearer"></div>
 
 	</div>
@@ -38,17 +40,7 @@
 
 		<div class="left" id="main_left">
 
-			<div class="post">
-				<?php if ($showTitle) {?>
-				<h1><?php echo $title?></h1>
-				<?php }?>
-				<div class="body">
-					
-					<?php echo $content; ?>
-					
-				</div>
-				
-			</div>
+			<?php echo $mainBody; ?>
 			
 		</div>		
 

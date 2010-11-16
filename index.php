@@ -48,7 +48,8 @@
 
 	$template = getTemplateName();
 		
-	$tpl = loadTemplate("page.php",$template);
+	//load main template
+	$tpl = loadTemplate("index.php",$template);
 	if (is_null($tpl)) {		
 		die ("Unable to load template for rendering");		
 	}
@@ -57,9 +58,13 @@
 	//if filesystem mode is activated, load and render the page
 	if (isset($contentFile)) $tpl->content=$tpl->render($contentFile);
 	
+	//load and render the component template
+	$tpl->mainBody = $tpl->render(findTemplate("page.php",$template));	
+	
 	$tpl->pageId = $pageId;
 	
-	EventManager::getInstance()->getEvent("onRender")->raise($req,$tpl);	
+	EventManager::getInstance()->getEvent("onRender")->raise($req,$tpl);
+	//render main template	
 	$resp->setBody($tpl->render());
 	
 	EventManager::getInstance()->getEvent("processResponse")->raise($req,$resp);	
