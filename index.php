@@ -1,14 +1,19 @@
 <?php 
 
 	require_once "includes/master.inc.php";		
-		
+	
+	$req = Cms::getCms()->getHttpRequest();
+	
+	//raise processRequest event
+	EventManager::getInstance()->getEvent("processRequest")->raise($req);	
+	
 	$resp = new HttpResponse();	
 	
 	//compute page
 	$pageId = String::slugify($req->getParam("page"));
 		
 	if (is_null($pageId) || $pageId === "") {
-		$pageId = DEFAULT_PAGE;
+		$pageId = getCmsConfig("DEFAULT_PAGE");
 	}	
 	
 	$lang = Lang::getLocale();
