@@ -3,8 +3,28 @@
 	define('MENU_LIST',1);
 	define('MENU_SIMPLE',2);
 
-	function getCmsConfig() {
-		return Config::get("site");
+	function getWebRoot() {
+		return String::slash(getCmsConfig("WEB_ROOT"));
+	}
+	
+	function getSiteName() {
+		return getCmsConfig("SITE_NAME");
+	}
+	
+	function getSiteSlogan() {
+		return getCmsConfig("SITE_SLOGAN");
+	}
+	
+	function getCmsConfig($key=null,$context="site") {
+		
+		$conf = Config::get($context);
+		if (is_null($key)) {
+			return $conf;
+		}
+		if (isset($conf[$key])) {
+			return $conf[$key];
+		} 
+		return null;
 	}
 	
 	function getDataDir() {
