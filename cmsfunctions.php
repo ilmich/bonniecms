@@ -36,6 +36,14 @@
 	}
 	
 	function getConfDir() {
+
+		$env = $_SERVER['HTTP_HOST'];
+		
+		//if exist and is readable, return specific server configuration dir
+		if (is_readable(APP_ROOT."conf_".$env."/")) {				
+			return APP_ROOT."conf_".$env."/";
+		}		
+		//else return standard configuration dir
 		return APP_ROOT."conf/";
 	}
 	
