@@ -129,12 +129,6 @@
 		return $out;
 	}
 	
-	function getComments($pageId) {
-		
-		$comm = new Comments();		
-		return $comm->getComments($pageId);
-	}
-	
 	function getHtmlHeaders() {
 		$out = "";
 		

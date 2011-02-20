@@ -1,12 +1,18 @@
 <?php	
 		
-	require_once "cmsclasses.php";	
-		
-	Cms::getCms()->configure()->loadPlugins()->startSession()->initLang();		
+	require_once "cmsfunctions.php";	
+
+	//add cms classpath
+	addClasspath(DOC_ROOT."classes/");
 	
+	//init cms
+	Cms::getCms()->init();	
+	
+	//load lang files
 	Lang::loadMessages("core");
 	Lang::loadMessages("menu");
 	
 	//load menus
 	require_once(getDataDir()."menus.php");	
+	
 	

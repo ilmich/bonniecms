@@ -2,10 +2,7 @@
 
 	require_once "includes/master.inc.php";		
 	
-	$req = Cms::getCms()->getHttpRequest();
-	
-	//raise processRequest event
-	EventManager::getInstance()->getEvent("processRequest")->raise($req);	
+	$req = Cms::getCms()->getHttpRequest();	
 	
 	$resp = new HttpResponse();	
 	
@@ -72,6 +69,5 @@
 	//render main template	
 	$resp->setBody($tpl->render());
 	
-	EventManager::getInstance()->getEvent("processResponse")->raise($req,$resp);	
-	$resp->send();	
+	Cms::getCms()->sendHttpResponse($resp);
 
