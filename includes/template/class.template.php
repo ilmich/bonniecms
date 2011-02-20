@@ -7,7 +7,7 @@ class TemplateException extends ClydePhpException {
 class Template {
 	 
 	protected $_data = array();
-	protected $_fileName;
+	protected $_fileName=null;
 	 
 	public function __construct($template) {
 		$this->_fileName = $template;

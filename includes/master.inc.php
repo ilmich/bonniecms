@@ -20,6 +20,7 @@ require CLYDEPHP_ROOT . '/compat.inc.php'; //some emulated function for php 5.1
 require CLYDEPHP_ROOT . '/class.string.php'; //some emulated function for php 5.1
 require CLYDEPHP_ROOT . '/class.classloader.php';  // __autoload() is contained in this file
 
+
 //register autoload function
 spl_autoload_register("ClassLoader::autoload");
 
