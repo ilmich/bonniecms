@@ -1,3 +1,4 @@
+<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?php
 
 	define('MENU_LIST',1);

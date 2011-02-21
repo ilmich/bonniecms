@@ -1,3 +1,4 @@
+<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?php
 
 	require_once CLYDEPHP_VENDOR."pecora/pecora.php";

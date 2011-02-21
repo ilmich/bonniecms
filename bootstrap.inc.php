@@ -1,7 +1,8 @@
+<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?php	
 		
 	require_once "cmsfunctions.php";	
-
+	
 	//add cms classpath
 	addClasspath(DOC_ROOT."classes/");
 	
