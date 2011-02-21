@@ -1,3 +1,4 @@
+<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?PHP
 // Stores session variables unique to a given URL
 class PagePref

@@ -1,3 +1,4 @@
+<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?php
 
 // code from http://freshmeat.net/p/upgradephp

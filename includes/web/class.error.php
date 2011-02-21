@@ -1,3 +1,4 @@
+<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?PHP
 class Error
 {
