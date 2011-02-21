@@ -105,7 +105,7 @@
 		
 		switch ($type) {
 			case 'page':				
-				return "index.php?page=".String::slugify($id).$lang;
+				return "page.php?page=".String::slugify($id).$lang;
 			case 'download':
 				 return "services/download.php?file=".$id;
 			default:
