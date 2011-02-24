@@ -34,6 +34,18 @@
 		echo makeLink($id,$locale,$type);
 	}
 	
+	function __meta($name,$content) {
+		echo HTML::meta($name,$content);
+	}
+		
+	function __anchor($url="#",$text=null,$extra="") {
+		echo HTML::anchor($url,$text,$extra);
+	}
+		
+	function __image($src="#",$extra="") {
+		echo HTML::image($src,$extra);
+	}
+	
 	/**
 	 * common functions 
 	 * 
@@ -106,7 +118,7 @@
 		$tFile = findTemplate($file,$tplName);
 		if (is_null($tFile)) return null;
 				
-		return new Template($tFile);		
+		return new HtmlTemplate($tFile);		
 	}
 	
 	function findTemplate($file,$tplName) {
@@ -168,10 +180,3 @@
 
 		return $out;
 	}
-	
-	function getHtmlHeaders() {
-		$out = "";
-		
-		return $out;
-	}
-		

@@ -3,10 +3,8 @@
 
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="description" content="description"/>
-<meta name="keywords" content="keywords"/> 
-<meta name="author" content="author"/>
-<?php echo getHtmlHeaders();?> 
+<?php __meta('author','ilmich'); ?>
+<?php echo $metaHeaders;?> 
 <title><?php __siteName()." - ".__siteSlogan(); ?></title>
 <link rel="stylesheet" href="<?php __webRoot()?>templates/winterplain/style.css" type="text/css" media="screen" />
 </head>
