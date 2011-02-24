@@ -7,8 +7,8 @@
 <meta name="keywords" content="keywords"/> 
 <meta name="author" content="author"/>
 <?php echo getHtmlHeaders();?> 
-<title><?php echo getSiteName()." - ".getSiteSlogan(); ?></title>
-<link rel="stylesheet" href="<?php echo getWebRoot()."templates/winterplain/"?>style.css" type="text/css" media="screen" />
+<title><?php __siteName()." - ".__siteSlogan(); ?></title>
+<link rel="stylesheet" href="<?php __webRoot()?>templates/winterplain/style.css" type="text/css" media="screen" />
 </head>
 
 <body>
@@ -18,8 +18,8 @@
 	<div id="top">
 
 		<div class="left">
-			<h1 id="site_title"><?php echo getSiteName(); ?></h1>
-			<div id="site_description"><?php echo getSiteSlogan(); ?></div>
+			<h1 id="site_title"><?php __siteName(); ?></h1>
+			<div id="site_description"><?php __siteSlogan(); ?></div>
 		</div>	
 
 		<div class="clearer"></div>

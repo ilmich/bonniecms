@@ -4,6 +4,41 @@
 	define('MENU_LIST',1);
 	define('MENU_SIMPLE',2);
 
+	/**
+	 * Useful alias functions for template designer, that reduce php
+	 * code in template
+	 * 
+	 * @param $key
+	 */
+	function __text($key) {
+		echo Lang::getMessage($key);
+	}
+	
+	function __webRoot() {
+		echo String::slash(getCmsConfig("WEB_ROOT"));
+	}
+	
+	function __siteName() {
+		echo getCmsConfig("SITE_NAME");
+	}
+	
+	function __siteSlogan() {
+		echo getCmsConfig("SITE_SLOGAN");
+	}
+	
+	function __conf($key,$context="site") {
+		echo getCmsConfig($key,$context);
+	}
+	
+	function __url($id,$locale=null,$type="page") {
+		echo makeLink($id,$locale,$type);
+	}
+	
+	/**
+	 * common functions 
+	 * 
+	 * 
+	 */
 	function getWebRoot() {
 		return String::slash(getCmsConfig("WEB_ROOT"));
 	}
@@ -37,7 +72,6 @@
 	}
 	
 	function getConfDir() {
-
 		$env = $_SERVER['HTTP_HOST'];
 		
 		//if exist and is readable, return specific server configuration dir
@@ -60,8 +94,7 @@
 		return DOC_ROOT."templates/".$tplName."/";	
 	}	
 	
-	function getTemplateName() {
-		
+	function getTemplateName() {		
 		$conf = getCmsConfig();
 		if (!isset($conf["TEMPLATE"]))
 			return null;
@@ -69,13 +102,11 @@
 		return $conf["TEMPLATE"];
 	}
 	
-	function loadTemplate($file,$tplName=null) {
-		
+	function loadTemplate($file,$tplName=null) {		
 		$tFile = findTemplate($file,$tplName);
 		if (is_null($tFile)) return null;
 				
-		return new Template($tFile);
-		
+		return new Template($tFile);		
 	}
 	
 	function findTemplate($file,$tplName) {
@@ -96,8 +127,8 @@
 		return null;	
 	}
 
-	function makeLink($id,$locale=null,$type="page") {
-				
+	function makeLink($id,$locale=null,$type="page") {			
+			
 		$lang="";
 		$conf = getCmsConfig();
 		if (!is_null($locale) && $locale !== $conf['LANG'])
