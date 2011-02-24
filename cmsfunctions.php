@@ -8,8 +8,7 @@
 	 * Useful alias functions for template designer, that reduce php
 	 * code in template
 	 * 
-	 * @param $key
-	 */
+	*/
 	function __text($key) {
 		echo Lang::getMessage($key);
 	}
@@ -141,6 +140,7 @@
 
 	function makeLink($id,$locale=null,$type="page") {			
 			
+		$webRoot = getWebRoot();
 		$lang="";
 		$conf = getCmsConfig();
 		if (!is_null($locale) && $locale !== $conf['LANG'])
@@ -148,9 +148,9 @@
 		
 		switch ($type) {
 			case 'page':				
-				return "page.php?page=".String::slugify($id).$lang;
+				return $webRoot."page.php?page=".String::slugify($id).$lang;
 			case 'download':
-				 return "services/download.php?file=".$id;
+				 return $webRoot."services/download.php?file=".$id;
 			default:
 				return null;
 		}
@@ -169,14 +169,70 @@
 		foreach ($menu as $key => $value) {
 			switch ($type) {
 				case MENU_LIST:
-					$out .= "<li><a href='".$value[0]."'>".$value[1]."</a></li>";
+					$out .= "<li><a href='".$value['url']."'>".$value['text']."</a></li>";
 					break;
 				default:	
-					$out .= "<a href='".$value[0]."'>".$value[1]."</a>";
+					$out .= "<a href='".$value['url']."'>".$value['text']."</a>";
 			}				
 		}
 		
 		if ($type == MENU_LIST) $out .= "</ul>";
 
 		return $out;
+	}
+	
+	/**
+	 * Return the choosen menu
+	 * 
+	 * @param $name menu name
+	 * @return array list of menu items
+	 */
+	function getMenu($name) {
+		
+		global $menu_list;
+		
+		if (isset($menu_list[$name]))
+			return $menu_list[$name];
+			
+		return array();
+		
+	}
+	
+	/**
+	 * Check if an menu item is selected
+	 *  
+	 * @param $menu the menu to inspect
+	 * @param $item the menu item to check
+	 * @return bool true or false if the menu item is selected or not
+	 */
+	function checkCurrentMenuUrl($menu,$item) {
+				
+		global $menu_list;
+		
+		if (isset($menu_list[$menu]) && isset($menu_list[$menu][$item]))
+			return $menu_list[$menu][$item]['url'] === Url::fullUrl();
+
+		return false;
+	}
+	
+	/**
+	 * Get the key of the menu item selected
+	 * 
+	 * 
+	 * @param $menu the menu to inspect
+	 * @return mixed the menu item select or false otherwise
+	 */
+	function getCurrentMenuItem($menu) {
+		
+		global $menu_list;
+		$currentUrl = Url::fullUrl();
+		
+		if (isset($menu_list[$menu])) {
+			foreach ($menu_list[$menu] as $key => $value) {
+				if ($currentUrl === $value['url']) 
+					return $key;						
+			}
+		}
+
+		return false;
 	}

@@ -26,14 +26,25 @@
 
 	<div class="path" id="nav">
 
-		<?php echo buildMenu('top_menu'); ?>
+		
+		<ul>
+			<?php foreach (getMenu("top_menu") as $item) {?>
+			<li>
+				<?php if ($currentUrl === $item['url']) {?>
+					<?php __anchor($item['url'],$item['text']," class='selected'"); ?>
+				<?php } else {?>
+					<?php __anchor($item['url'],$item['text']); ?>
+				<?php } ?>
+			</li>
+			<?php } ?>
+		</ul>
 		<div class="clearer"></div>
 
 	</div>
 
 	<div id="main">
 
-		<div class="left" id="main_left">
+		<div class="left" id="main_left"> 
 
 			<?php echo $mainBody; ?>
 			
