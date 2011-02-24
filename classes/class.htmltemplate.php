@@ -8,6 +8,8 @@
 		public function __construct($template) {			
 			parent::__construct($template);			
 			$this->metaHeaders = "";
+			//set current url
+			$this->currentUrl = Url::fullUrl();
 		}
 		
 		public function addMetaHeader($key,$value) {
