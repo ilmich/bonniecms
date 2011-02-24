@@ -56,6 +56,9 @@
 	if (is_null($tpl)) {		
 		die ("Unable to load template for rendering");		
 	}
+	if (isset($page['meta'])) {
+		$tpl->addMetaHeaders($page['meta']);
+	}
 	$tpl->fromArray($page);
 	
 	//if filesystem mode is activated, load and render the page
