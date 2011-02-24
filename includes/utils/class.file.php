@@ -3,9 +3,10 @@
 
 	class File {
 		
-		public static function lock($fileName,$polling=1) {
+		public static function lock($fileName,$check=true, $polling=1) {
 			
-			if (!file_exists($fileName)) {
+			
+			if ($check && !file_exists($fileName)) {
 				throw new ClydePhpException("Unable to lock: $fileName not found");	
 			}
 			
