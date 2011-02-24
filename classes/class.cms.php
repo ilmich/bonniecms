@@ -4,9 +4,9 @@
 	class Cms {
 		
 		private static $me=null;
-		
+				
 		private function __construct() {
-		
+			
 		}
 		
 		public static function getCms() {
@@ -54,11 +54,13 @@
 				Lang::setLocale($conf['LANG']);
 			}
 			
+			return $this;
+			
 		}
 		
 		public function init() {
 			
-			$this->configure()->loadPlugins()->initLang();
+			$this->configure()->loadPlugins()->initLang()->startSession();
 			
 			//raise processRequest event
 			EventManager::getInstance()->getEvent("processRequest")->raise($this->getHttpRequest());
@@ -87,7 +89,8 @@
 		
 		public function sendHttpResponse($res) {
 			
-			EventManager::getInstance()->getEvent("processResponse")->raise($this->getHttpRequest(),$res);	
+			EventManager::getInstance()->getEvent("processResponse")->raise($this->getHttpRequest(),$res);
+
 			$res->send();	
 			
 		}
