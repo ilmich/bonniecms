@@ -39,7 +39,8 @@
 		if (!isset($page)) {
 			$page = array("showTitle" => true,
 						  "title" => Lang::getMessage("PAGE_NOT_FOUND_TITLE"),
-						  "content" => Lang::getMessage("PAGE_NOT_FOUND"));			
+						  "content" => Lang::getMessage("PAGE_NOT_FOUND"));	
+			$resp->setStatus(404);		
 		}	
 	}		
 			
