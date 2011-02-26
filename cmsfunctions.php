@@ -148,7 +148,7 @@
 		
 		switch ($type) {
 			case 'page':				
-				return Url::encode($webRoot."page.php?page=".String::slugify($id).$lang);
+				return $webRoot."page.php?page=".String::slugify($id).$lang;
 			case 'download':
 				 return $webRoot."services/download.php?file=".$id;
 			default:

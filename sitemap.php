@@ -26,7 +26,7 @@
 			 xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 	
 	foreach ($urls as $url) {		
-		$xml .= "<url>\n\t<loc>".Url::encode($url['loc'])."</loc>\n\t<lastmod>".$url['lastmod']."</lastmod>\n</url>\n";		
+		$xml .= "<url>\n\t<loc>".Url::htmlEncode($url['loc'])."</loc>\n\t<lastmod>".$url['lastmod']."</lastmod>\n</url>\n";		
 	}
 	
 	$xml .= "</urlset>";
