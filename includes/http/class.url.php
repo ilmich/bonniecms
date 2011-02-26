@@ -27,5 +27,43 @@
 				
 			return (count($ret) > 0) ? $ret : false;
 		}
+					
+		/**
+		 * better encoding url
+		 * 
+		 * code snippet from
+		 * http://publicmind.in/blog/url-encoding/
+		 * 
+		 * @param $url
+		 */
+		public static function encode($url) {
+			
+			$reserved = array(
+					":" => '!%3A!ui',
+					"/" => '!%2F!ui',
+					"?" => '!%3F!ui',
+					"#" => '!%23!ui',
+					"[" => '!%5B!ui',
+					"]" => '!%5D!ui',
+					"@" => '!%40!ui',
+					"!" => '!%21!ui',
+					"$" => '!%24!ui',
+					"&" => '!%26!ui',
+					"'" => '!%27!ui',
+					"(" => '!%28!ui',
+					")" => '!%29!ui',
+					"*" => '!%2A!ui',
+					"+" => '!%2B!ui',
+					"," => '!%2C!ui',
+					";" => '!%3B!ui',
+					"=" => '!%3D!ui',
+					"%" => '!%25!ui',
+				);
+				
+				$url = rawurlencode(htmlentities(utf8_encode($url)));
+				$url = preg_replace(array_values($reserved), array_keys($reserved), $url);
+				
+				return $url;
+			}	
 				
 	}
