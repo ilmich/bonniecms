@@ -60,10 +60,14 @@
 					"%" => '!%25!ui',
 				);
 				
-				$url = rawurlencode(htmlentities(utf8_encode($url)));
+				$url = rawurlencode(utf8_encode($url));
 				$url = preg_replace(array_values($reserved), array_keys($reserved), $url);
 				
 				return $url;
-			}	
+			}
+
+			public static function htmlEncode($url) {
+				return self::encode(htmlentities($url));
+			}
 				
 	}
