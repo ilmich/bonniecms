@@ -1,6 +1,8 @@
 <?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
 <?php
 
+	define('BONNIECMS_VERSION','0.2.0');
+
 	define('MENU_LIST',1);
 	define('MENU_SIMPLE',2);
 
