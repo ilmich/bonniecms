@@ -4,9 +4,21 @@
 class HttpResponse {
 
 	private $_body;
-	private $_headers = array();	
+	private $_headers = array();
+	private $_mimetype = null;	
+	
+	public function __construct($mimeType = null) {
+		
+		if (!is_null($mimeType) && $mimeType !== '') {
+			$this->_mimetype = $mimeType;
+		}
+		
+	}
 
 	public function send() {
+		
+		if (!is_null($this->_mimetype) && $this->_mimetype !== '')
+			$this->addHeader("Content-Type",$this->_mimetype);
 			
 		foreach ($this->_headers as $header) {
 			header($header);
@@ -74,9 +86,13 @@ class HttpResponse {
 			throw new ClydePhpException("MimeType must be a not null string");
 		}
 		
-		$this->addHeader("Content-Type",$mime);
+		$this->_mimetype = $mime;		
 		
 		return $this;
+	}
+	
+	public function getMimeType() {
+		return $this->_mimetype;
 	}
 	
 	private function getStatusCodeMessage($status)
