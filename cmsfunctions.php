@@ -76,23 +76,49 @@
 		return null;
 	}
 	
-	function getDataDir() {
+	/**
+	 * Get data dir path
+	 * 
+	 * @param $absolute retrieve absolute data dir or relative data dir
+	 */
+	function getDataDir($absolute=false) {
+		if ($absolute) {
+			return DOC_ROOT."data/";
+		}
 		return APP_ROOT."data/";
 	}
 	
-	function getLogsDir() {
+	/**
+	 * Get logs dir path
+	 * 
+	 * @param $absolute retrieve absolute logs dir or relative logs dir
+	 */
+	function getLogsDir($absolute=false) {
+		if ($absolute){
+			return DOC_ROOT."logs/";
+		}
 		return APP_ROOT."logs/"; 
 	}
 	
-	function getConfDir() {
+	/**
+	 * Get conf dir path
+	 * 
+	 * @param $absolute retrieve absolute conf dir or relative conf dir
+	 */
+	function getConfDir($absolute=false) {
 		$env = $_SERVER['HTTP_HOST'];
 		
+		$base = APP_ROOT;		
+		if ($absolute){
+			$base = DOC_ROOT;
+		}
+		
 		//if exist and is readable, return specific server configuration dir
-		if (is_readable(APP_ROOT."conf_".$env."/")) {				
-			return APP_ROOT."conf_".$env."/";
+		if (is_readable($base."conf_".$env."/")) {				
+			return $base."conf_".$env."/";
 		}		
 		//else return standard configuration dir
-		return APP_ROOT."conf/";
+		return $base."conf/";
 	}
 	
 	function getPluginsDir() {
