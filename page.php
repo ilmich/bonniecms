@@ -4,7 +4,7 @@
 	
 	$req = Cms::getCms()->getHttpRequest();	
 	
-	$resp = new HttpResponse();	
+	$resp = new HttpResponse("text/html");	
 	
 	//compute page
 	$pageId = String::slugify($req->getParam("page"));
@@ -73,7 +73,7 @@
 	
 	EventManager::getInstance()->getEvent("onRender")->raise($req,$tpl);
 	//render main template	
-	$resp->setBody($tpl->render());
+	$resp->setBody($tpl->render());	
 	
 	Cms::getCms()->sendHttpResponse($resp);
 
