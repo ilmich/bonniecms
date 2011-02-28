@@ -1,6 +1,5 @@
 <?php
 
-	$lang['Home']='Home';
-	$lang['Get Started']='Inizia';		
+	$lang['Home']='Home';			
 	
 	return $lang;
