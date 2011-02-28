@@ -3,7 +3,7 @@
 
 	class File {
 		
-		public static function lock($fileName,$check=true, $polling=1) {
+		public static function lock($fileName,$check=true, $retry=null,$polling=1) {
 			
 			
 			if ($check && !file_exists($fileName)) {
@@ -16,10 +16,12 @@
 			if(!is_int($polling) || $polling < 1) 
 				$polling = 1;
 	
-			$retry = intval((ini_get('max_execution_time')/$polling));
-						
-			if ($retry == 0) {
-				$retry = 10;
+			if (is_null($retry)) {
+				$retry = intval((ini_get('max_execution_time')/$polling));
+					
+				if ($retry == 0) {
+					$retry = 10;
+				}
 			}		
 			/**
 			 * Code section
