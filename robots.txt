@@ -1,3 +1,17 @@
 User-agent: *
-Allow: /
-Sitemap: /sitemap.php
+Disallow: /classes/
+Disallow: /conf/
+Disallow: /data/
+Disallow: /includes/
+Disallow: /lang/
+Disallow: /logs/
+Disallow: /plugins/
+Disallow: /services/
+Disallow: /templates/
+Disallow: /vendor/
+
+#bonniecms sitemap generator example
+#Sitemap: http://www.yourhost.com/sitemap.php
+
+#your static sitemap file
+#Sitemap: http://www.yourhost.com/your_sitemap_static_file.xml
