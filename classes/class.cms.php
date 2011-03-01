@@ -19,12 +19,25 @@
 		
 		public function configure() {
 			
+			$glob = Config::getConfig();
+			
+			//check main config file site.php
+			if (!is_readable(APP_ROOT."/configuration.inc.php")) {
+				throw new ClydePhpException("Unable to load main configuration file");
+			}
+						
+			//load main configuration
+			$arr = require_once APP_ROOT."/configuration.inc.php";
+			if (is_array($arr)) {				
+				$glob->site = $arr;				
+			}			
+			
 			//load config files
 			$confs = glob(getConfDir()."*.php");
-			$glob = Config::getConfig(); 
-			
+						
+			//load all configuration files
 			if ($confs)
-				foreach ($confs as $conf) {
+				foreach ($confs as $conf) {			
 					$arr = require_once $conf; 
 					if (is_array($arr)) {
 						$name = basename($conf,".php");
@@ -32,7 +45,7 @@
 					}
 				}
 			return $this;		
-		}
+		}	
 		
 		public function loadPlugins() {
 			
