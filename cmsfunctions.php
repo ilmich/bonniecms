@@ -55,7 +55,7 @@
 	function getWebRoot() {
 		return String::slash(getCmsConfig("WEB_ROOT"));
 	}
-	
+
 	function getSiteName() {
 		return getCmsConfig("SITE_NAME");
 	}
@@ -131,7 +131,15 @@
 		}
 		
 		return DOC_ROOT."templates/".$tplName."/";	
-	}	
+	}
+
+	function getTemplateWebRoot($tplName=null) {
+		if (is_null($tplName)) {
+			return getWebRoot()."templates/";
+		}
+		
+		return getWebRoot()."templates/".$tplName."/";	
+	}
 	
 	function getTemplateName() {		
 		$conf = getCmsConfig();
@@ -179,6 +187,8 @@
 				return $webRoot."page.php?page=".String::slugify($id).$lang;
 			case 'download':
 				 return $webRoot."services/download.php?file=".$id;
+			case 'css':
+				 return $webRoot.'css.php?css='.$id;
 			default:
 				return null;
 		}
