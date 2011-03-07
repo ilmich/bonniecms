@@ -80,7 +80,7 @@
 		 * 
 		 * @param $str
 		 */
-		function checkUtf8($str) {
+		public static function checkUtf8($str) {
 		    $len = strlen($str);
 		    for($i = 0; $i < $len; $i++){
 		        $c = ord($str[$i]);
