@@ -4,6 +4,7 @@
 	class Cms {
 		
 		private static $me=null;
+		private $_cache = null; //cache manager
 				
 		private function __construct() {
 			
@@ -19,15 +20,22 @@
 		
 		public function configure() {
 			
+			$env = $_SERVER['HTTP_HOST'];
+			
 			$glob = Config::getConfig();
 			
 			//check main config file site.php
-			if (!is_readable(APP_ROOT."/configuration.inc.php")) {
+			if (!is_readable(APP_ROOT."/configuration.inc.php") && !is_readable(APP_ROOT."/configuration.".$env.".inc.php")) {
 				throw new ClydePhpException("Unable to load main configuration file");
 			}
-						
+
 			//load main configuration
-			$arr = require_once APP_ROOT."/configuration.inc.php";
+			if (is_readable(APP_ROOT."/configuration.".$env.".inc.php")) {
+				$arr = require_once APP_ROOT."/configuration.".$env.".inc.php";
+			}else {
+				$arr = require_once APP_ROOT."/configuration.inc.php";	
+			}
+			
 			if (is_array($arr)) {				
 				$glob->site = $arr;				
 			}			
@@ -75,9 +83,25 @@
 			
 			$this->configure()->loadPlugins()->initLang()->startSession();
 			
+			
+			//configure cache
+			if (getCmsConfig("CACHE")) {
+				$this->_cache = Cache::factory(array("type" => "file", "path" => APP_ROOT."/cache/", "expiration" => getCmsConfig("CACHE_TIME")));			
+			}
+			
+			if (!is_null($this->_cache)) {
+				$res = $this->_cache->get($this->getHttpRequest()->getRequestUri());				
+				
+				if (!is_null($res) && $res instanceof HttpResponse) {
+					$res->send();
+					exit(0);
+				}
+			}
+						
+			
 			//raise processRequest event
 			EventManager::getInstance()->getEvent("processRequest")->raise($this->getHttpRequest());
-			
+						
 		}
 		
 		public function startSession($name="bonniecms") {
@@ -104,8 +128,16 @@
 			
 			EventManager::getInstance()->getEvent("processResponse")->raise($this->getHttpRequest(),$res);
 
-			$res->send();	
+			if (!is_null($this->_cache)) {
+				$this->_cache->put($this->getHttpRequest()->getRequestUri(),$res);
+			}
 			
+			$res->send();
+			
+		}
+		
+		public function getCacheManager() {			
+			return 	$this->_cache;
 		}
 		
 	}
