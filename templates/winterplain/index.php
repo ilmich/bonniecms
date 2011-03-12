@@ -6,7 +6,7 @@
 <?php __meta('author','ilmich'); ?>
 <?php echo $metaHeaders;?> 
 <title><?php __siteName()." - ".__siteSlogan(); ?></title>
-<link rel="stylesheet" href="<?php __webRoot()?>templates/winterplain/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php __url("style",null,"css"); ?>" type="text/css" media="screen" />
 </head>
 
 <body>
