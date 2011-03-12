@@ -141,6 +141,10 @@ class HttpRequest {
 	public function getQueryString() {
 		return $this->getHeader("QUERY-STRING");
 	}
+	
+	public function getRequestUri() {
+		return $this->getHeader("REQUEST-URI");
+	}
 
 	/**
 		* Retrieve an HTTP Header

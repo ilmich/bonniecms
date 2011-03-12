@@ -15,26 +15,22 @@ abstract class Action extends BaseClass{
 			
 	}
 
-	public function processRequest($req) {
-		return $req;
-	}
+	public function processRequest(&$req) {}
 
-	public function execute($req) {
-
+	public function execute($req,$params=array()) {
+				
 		$this->init();
 			
 		$methodName = $this->getMethodName($req);
-			
-		$req = $this->processRequest($req);
-		$res = $this->$methodName($req);
-		$res = $this->processResponse($res);
+
+		$this->processRequest($req);
+		$res = $this->$methodName($req);		
+		$this->processResponse($res);
 			
 		return $res;
 	}
 
-	public function processResponse($res) {
-		return $res;
-	}
+	public function processResponse(&$res) {}
 
 	public function __call($name, $arguments) {
 		throw new ActionException("Unknown method ".$name." in ".get_class($this));
@@ -44,21 +40,20 @@ abstract class Action extends BaseClass{
 
 }
 
-class ActionRunner extends BaseClass {
+/**
+class ActionRunner {
 
-	public function __construct($params = array()) {
-			
-		parent::__construct($params);
-			
+	public static function execute($req = null, $params = array()) {
+					
 		//run file action
 		$actionName = ucfirst(basename($_SERVER["SCRIPT_FILENAME"],".php"))."Action";
 			
-		$action = new $actionName();
+		$action = new $actionName($params);
 		$res = $action->execute(HttpRequest::getHttpRequest());
 		$res->send();
 	}
 
-}
+}*/
 
 
 ?>

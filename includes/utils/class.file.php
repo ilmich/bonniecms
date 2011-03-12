@@ -3,7 +3,7 @@
 
 	class File {
 		
-		public static function lock($fileName,$check=true, $retry=null,$polling=1) {
+	public static function lock($fileName,$check=true, $retry=null,$polling=1) {
 			
 			
 			if ($check && !file_exists($fileName)) {
