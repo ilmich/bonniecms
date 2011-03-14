@@ -12,7 +12,7 @@
 		// Creates a friendly URL slug from a string
 		public static function slugify($str)
 		{
-			if (!is_null($str)) {
+			if (is_null($str)) {
 				return null;
 			}
 			
