@@ -87,17 +87,7 @@
 			//configure cache
 			if (getCmsConfig("CACHE")) {
 				$this->_cache = Cache::factory(array("type" => "file", "path" => APP_ROOT."/cache/", "expiration" => getCmsConfig("CACHE_TIME")));			
-			}
-			
-			if (!is_null($this->_cache)) {
-				$res = $this->_cache->get($this->getHttpRequest()->getRequestUri());				
-				
-				if (!is_null($res) && $res instanceof HttpResponse) {
-					$res->send();
-					exit(0);
-				}
-			}
-						
+			}						
 			
 			//raise processRequest event
 			EventManager::getInstance()->getEvent("processRequest")->raise($this->getHttpRequest());
@@ -126,14 +116,33 @@
 		
 		public function sendHttpResponse($res) {
 			
-			EventManager::getInstance()->getEvent("processResponse")->raise($this->getHttpRequest(),$res);
+			EventManager::getInstance()->getEvent("processResponse")->raise($this->getHttpRequest(),$res);		
+			
+			$res->send();
+			
+		}
+		
+		public function getCachedHttpResponse($res) {
+			
+			if (!is_null($this->_cache)) {
+				$res = $this->_cache->get($this->getHttpRequest()->getRequestUri());				
+				
+				if (!is_null($res) && $res instanceof HttpResponse) {
+					return $res;
+				}
+			}
+			
+			return null;
+			
+		}
+		
+		public function setCachedHttpResponse($res) {
 
 			if (!is_null($this->_cache)) {
 				$this->_cache->put($this->getHttpRequest()->getRequestUri(),$res);
 			}
 			
-			$res->send();
-			
+			return $this;
 		}
 		
 		public function getCacheManager() {			
