@@ -39,7 +39,7 @@
 			}						
 			
 			if (isset($conf['minify']) && $conf['minify'])
-				$css = Minify_CSS::minify($css,$conf[$filename]);
+				$css = minifyCss($css,$conf[$filename]);
 
 			$ch->put($filename,$css,'css');
 			

@@ -75,10 +75,15 @@
 		
 		$tpl->pageId = $pageId;
 		
-		EventManager::getInstance()->getEvent("onRender")->raise($req,$tpl);
-		//render main template	
-		$resp->setBody($tpl->render());
+		EventManager::getInstance()->getEvent("onRender")->raise($req,$tpl);		
 
+		//minify or not minify
+		if (getCmsConfig('MINIFY') && function_exists('minifyHtml')) {
+			$resp->setBody(minifyHtml($tpl->render()));
+		}else {
+			$resp->setBody($tpl->render());
+		}
+		
 		Cms::getCms()->setCachedHttpResponse($resp);
 	}
 	

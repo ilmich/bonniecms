@@ -9,5 +9,6 @@
 	$site['DEFAULT_COMPONENT'] = "page";
 	$site['CACHE'] = true; //caching
 	$site['CACHE_TIME'] = 5; //cache timeout in seconds
+	$site['MINIFY'] = true;
 	
 	return $site;

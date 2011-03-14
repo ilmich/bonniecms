@@ -5,6 +5,10 @@
 
 	define('MENU_LIST',1);
 	define('MENU_SIMPLE',2);
+	
+	require_once CLYDEPHP_VENDOR."minify/HTML.php";
+	require_once CLYDEPHP_VENDOR."minify/CSS.php";
+	
 
 	/**
 	 * Useful alias functions for template designer, that reduce php
@@ -273,4 +277,21 @@
 		}
 
 		return false;
+	}
+	
+	function minifyHtml($html=null) {
+		
+		if (!is_null($html) && is_string($html))
+			return Minify_HTML::minify($html);
+
+		return null;
+        		
+	}
+	
+	function minifyCss($css,$options=array()) {
+		
+		if (!is_null($css) && is_string($css))
+			return Minify_CSS::minify($css,$options);
+
+		return null;		
 	}
