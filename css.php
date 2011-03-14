@@ -4,19 +4,23 @@
 
 		$req = Cms::getCms()->getHttpRequest();
 				
-		$filename = $req->getParam("css");		
+		$filename = String::slugify($req->getParam("css"));		
 		
 		if(is_null($filename)) {
 			$resp->setStatus(400)->setBody("No filename specified")->send();
 			exit(-1);
 		}
 		
-		$resp = Cms::getCms()->getCachedHttpResponse($req);
+		$resp = new HttpResponse("text/css");
+		
+		$conf = getCmsConfig(null,"css");
+		$ch = Cms::getCms()->getCacheManager();
+		
+		if ($ch) {
+			$css = $ch->get($filename,'css');	
+		}		
 	
-		if (is_null($resp)) {
-			
-			$resp = new HttpResponse("text/css");
-			$conf = getCmsConfig(null,"css");
+		if (is_null($css)) {						
 			
 			if (!isset($conf[$filename])) {
 				$resp->setStatus(400)->setBody("Css $filename not configured")->send();
@@ -36,12 +40,14 @@
 			
 			if (isset($conf['minify']) && $conf['minify'])
 				$css = Minify_CSS::minify($css,$conf[$filename]);
-					
-			$resp->addHeader("Content-Length", strlen($css))				
+
+			$ch->put($filename,$css,'css');
+			
+		}				
+		
+		$resp->addHeader("Content-Length", strlen($css))				
 				->setBody($css);
 				
-			Cms::getCms()->setCachedHttpResponse($resp);
-		}				
 		Cms::getCms()->sendHttpResponse($resp);
 				
 		
