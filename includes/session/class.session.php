@@ -32,9 +32,9 @@ class Session {
 		return self::$me;
 	}
 
-	public function start($sessionName="clydephp") {
-			
+	public function start($sessionName='clydephp',$lifetime=null,$path=null,$domain=null) {		
 		if (!$this->isStarted) {
+			session_set_cookie_params($lifetime,$path,$domain);
 			session_name($sessionName);
 			session_start();
 			$this->isStarted = true;

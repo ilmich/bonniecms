@@ -171,6 +171,7 @@
 		                            'pmr'     => 'application/x-perfmon',
 		                            'pmw'     => 'application/x-perfmon',
 		                            'pnm'     => 'image/x-portable-anymap',
+									'png'	  => 'image/png',
 		                            'pot'     => 'application/vnd.ms-powerpoint',
 		                            'ppm'     => 'image/x-portable-pixmap',
 		                            'pps'     => 'application/vnd.ms-powerpoint',

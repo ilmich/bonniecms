@@ -4,7 +4,7 @@
 	class String {
 		
 		// Given a string such as "comment_123" or "id_57", it returns the final, numeric id.
-		public static function splitId($str)
+		public static function splitId($str)		
 		{
 			return self::match('/[_-]([0-9]+)$/', $str, 1);
 		}
@@ -12,6 +12,10 @@
 		// Creates a friendly URL slug from a string
 		public static function slugify($str)
 		{
+			if (!is_null($str)) {
+				return null;
+			}
+			
 			$str = preg_replace('/[^a-zA-Z0-9 -]/', '', $str);
 			$str = strtolower(str_replace(' ', '-', trim($str)));
 			$str = preg_replace('/-+/', '-', $str);
