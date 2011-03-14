@@ -11,11 +11,10 @@
 			exit(-1);
 		}
 		
-		$resp = new HttpResponse("text/css");
-		
+		$resp = new HttpResponse("text/css");		
 		$conf = getCmsConfig(null,"css");
 		$ch = Cms::getCms()->getCacheManager();
-		
+		$css = null;
 		if ($ch) {
 			$css = $ch->get($filename,'css');	
 		}		
@@ -40,8 +39,9 @@
 			
 			if (isset($conf['minify']) && $conf['minify'])
 				$css = minifyCss($css,$conf[$filename]);
-
-			$ch->put($filename,$css,'css');
+		
+			if ($ch)
+				$ch->put($filename,$css,'css');
 			
 		}				
 		
@@ -49,5 +49,6 @@
 				->setBody($css);
 				
 		Cms::getCms()->sendHttpResponse($resp);
+		
 				
 		
