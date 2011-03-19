@@ -6,12 +6,12 @@
 				
 		$filename = String::slugify($req->getParam("css"));		
 		
+		$resp = new HttpResponse("text/css");
 		if(is_null($filename)) {
 			$resp->setStatus(400)->setBody("No filename specified")->send();
 			exit(-1);
-		}
-		
-		$resp = new HttpResponse("text/css");		
+		}		
+				
 		$conf = getCmsConfig(null,"css");
 		$ch = Cms::getCms()->getCacheManager();
 		$css = null;
@@ -39,9 +39,10 @@
 			
 			if (isset($conf['minify']) && $conf['minify'])
 				$css = minifyCss($css,$conf[$filename]);
-		
-			if ($ch)
+
+			if ($ch) {				
 				$ch->put($filename,$css,'css');
+			}
 			
 		}				
 		
