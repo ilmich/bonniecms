@@ -1,9 +1,9 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 	
 	class Lang {
 		
-		private $locale = "en";		
+		private $locale = 'en';		
 		private $messages = array();
 		private static $me=null;
 		
@@ -29,7 +29,7 @@
 		
 		public static function loadMessages($name) {
 			$instance = self::getLang();
-			$filename = APP_ROOT."lang/".$instance->locale."/".$name.".php";
+			$filename = APP_ROOT.'lang/'.$instance->locale.'/'.$name.'.php';
 			if (!is_readable($filename)) {
 				return false;
 			}			
@@ -42,6 +42,5 @@
 				return $key;		
 			}
 			return $messages[$key];
-		}
-		
+		}		
 	}

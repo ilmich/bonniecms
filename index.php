@@ -1,7 +1,7 @@
 <?php 
 
-	require_once "includes/master.inc.php";		
+	require_once 'includes/master.inc.php';		
 	
-	$mainComp = getCmsConfig("DEFAULT_COMPONENT","site");
+	$mainComp = getCmsConfig('DEFAULT_COMPONENT','site');	
 	
-	require_once $mainComp.".php";
+	require_once $mainComp.'.php';

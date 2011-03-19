@@ -1,4 +1,4 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 
 	define('BONNIECMS_VERSION','20110301');
@@ -6,9 +6,8 @@
 	define('MENU_LIST',1);
 	define('MENU_SIMPLE',2);
 	
-	require_once CLYDEPHP_VENDOR."minify/HTML.php";
-	require_once CLYDEPHP_VENDOR."minify/CSS.php";
-	
+	require_once CLYDEPHP_VENDOR.'minify/HTML.php';
+	require_once CLYDEPHP_VENDOR.'minify/CSS.php';	
 
 	/**
 	 * Useful alias functions for template designer, that reduce php
@@ -20,22 +19,22 @@
 	}
 	
 	function __webRoot() {
-		echo String::slash(getCmsConfig("WEB_ROOT"));
+		echo String::slash(getCmsConfig('WEB_ROOT'));
 	}
 	
 	function __siteName() {
-		echo getCmsConfig("SITE_NAME");
+		echo getCmsConfig('SITE_NAME');
 	}
 	
 	function __siteSlogan() {
-		echo getCmsConfig("SITE_SLOGAN");
+		echo getCmsConfig('SITE_SLOGAN');
 	}
 	
-	function __conf($key,$context="site") {
+	function __conf($key,$context='site') {
 		echo getCmsConfig($key,$context);
 	}
 	
-	function __url($id,$locale=null,$type="page") {
+	function __url($id,$locale=null,$type='page') {
 		echo makeLink($id,$locale,$type);
 	}
 	
@@ -43,11 +42,11 @@
 		echo HTML::meta($name,$content);
 	}
 		
-	function __anchor($url="#",$text=null,$extra="") {
+	function __anchor($url='#',$text=null,$extra='') {
 		echo HTML::anchor($url,$text,$extra);
 	}
 		
-	function __image($src="#",$extra="") {
+	function __image($src='#',$extra='') {
 		echo HTML::image($src,$extra);
 	}
 	
@@ -57,19 +56,18 @@
 	 * 
 	 */
 	function getWebRoot() {
-		return String::slash(getCmsConfig("WEB_ROOT"));
+		return String::slash(getCmsConfig('WEB_ROOT'));
 	}
 
 	function getSiteName() {
-		return getCmsConfig("SITE_NAME");
+		return getCmsConfig('SITE_NAME');
 	}
 	
 	function getSiteSlogan() {
-		return getCmsConfig("SITE_SLOGAN");
+		return getCmsConfig('SITE_SLOGAN');
 	}
 	
-	function getCmsConfig($key=null,$context="site") {
-		
+	function getCmsConfig($key=null,$context='site') {		
 		$conf = Config::get($context);
 		if (is_null($key)) {
 			return $conf;
@@ -87,9 +85,9 @@
 	 */
 	function getDataDir($absolute=false) {
 		if ($absolute) {
-			return DOC_ROOT."data/";
+			return DOC_ROOT.'data/';
 		}
-		return APP_ROOT."data/";
+		return APP_ROOT.'data/';
 	}
 	
 	/**
@@ -99,9 +97,9 @@
 	 */
 	function getLogsDir($absolute=false) {
 		if ($absolute){
-			return DOC_ROOT."logs/";
+			return DOC_ROOT.'logs/';
 		}
-		return APP_ROOT."logs/"; 
+		return APP_ROOT.'logs/'; 
 	}
 	
 	/**
@@ -118,39 +116,39 @@
 		}
 		
 		//if exist and is readable, return specific server configuration dir
-		if (is_readable($base."conf_".$env."/")) {				
-			return $base."conf_".$env."/";
+		if (is_readable($base.'conf_'.$env.'/')) {				
+			return $base.'conf_'.$env.'/';
 		}		
 		//else return standard configuration dir
-		return $base."conf/";
+		return $base.'conf/';
 	}
 	
 	function getPluginsDir() {
-		return DOC_ROOT."plugins/";
+		return DOC_ROOT.'plugins/';
 	}
 	
 	function getTemplateDir($tplName=null) {
 		if (is_null($tplName)) {
-			return DOC_ROOT."templates/";
+			return DOC_ROOT.'templates/';
 		}
 		
-		return DOC_ROOT."templates/".$tplName."/";	
+		return DOC_ROOT.'templates/'.$tplName.'/';	
 	}
 
 	function getTemplateWebRoot($tplName=null) {
 		if (is_null($tplName)) {
-			return getWebRoot()."templates/";
+			return getWebRoot().'templates/';
 		}
 		
-		return getWebRoot()."templates/".$tplName."/";	
+		return getWebRoot().'templates/'.$tplName.'/';	
 	}
 	
 	function getTemplateName() {		
 		$conf = getCmsConfig();
-		if (!isset($conf["TEMPLATE"]))
+		if (!isset($conf['TEMPLATE']))
 			return null;
 			
-		return $conf["TEMPLATE"];
+		return $conf['TEMPLATE'];
 	}
 	
 	function loadTemplate($file,$tplName=null) {		
@@ -161,8 +159,8 @@
 	}
 	
 	function findTemplate($file,$tplName) {
-			if ( (is_null($tplName) || $tplName === "") &&
-			 (is_null($file) || $file === "")) 
+			if ( (is_null($tplName) || $tplName === '') &&
+			 (is_null($file) || $file === '')) 
 			return null;
 			
 		//try to load first in the template dir
@@ -178,47 +176,43 @@
 		return null;	
 	}
 
-	function makeLink($id,$locale=null,$type="page") {			
-			
+	function makeLink($id,$locale=null,$type='page') {			
 		$webRoot = getWebRoot();
 		$lang="";
 		$conf = getCmsConfig();
 		if (!is_null($locale) && $locale !== $conf['LANG'])
-			$lang="&lang=".$locale;
+			$lang='&lang='.$locale;
 		
 		switch ($type) {
 			case 'page':				
-				return $webRoot."page.php?page=".String::slugify($id).$lang;
+				return $webRoot.'page.php?page='.String::slugify($id).$lang;
 			case 'download':
-				 return $webRoot."services/download.php?file=".$id;
+				 return $webRoot.'services/download.php?file='.$id;
 			case 'css':
 				 return $webRoot.'css.php?css='.$id;
 			default:
 				return null;
-		}
-		
+		}		
 	}
 	
-	function buildMenu($name,$type= MENU_LIST) {
-		
+	function buildMenu($name,$type= MENU_LIST) {		
 		global $menu_list;
 		
-		$menu = $menu_list[$name];
-		
-		$out = "";		
-		if ($type == MENU_LIST) $out = "<ul>";
+		$menu = $menu_list[$name];		
+		$out = '';		
+		if ($type == MENU_LIST) $out = '<ul>';
 		
 		foreach ($menu as $key => $value) {
 			switch ($type) {
 				case MENU_LIST:
-					$out .= "<li><a href='".$value['url']."'>".$value['text']."</a></li>";
+					$out .= '<li><a href=\''.$value['url'].'\'>'.$value['text'].'</a></li>';
 					break;
 				default:	
-					$out .= "<a href='".$value['url']."'>".$value['text']."</a>";
+					$out .= '<a href=\''.$value['url'].'\'>'.$value['text'].'</a>';
 			}				
 		}
 		
-		if ($type == MENU_LIST) $out .= "</ul>";
+		if ($type == MENU_LIST) $out .= '</ul>';
 
 		return $out;
 	}
@@ -229,15 +223,13 @@
 	 * @param $name menu name
 	 * @return array list of menu items
 	 */
-	function getMenu($name) {
-		
+	function getMenu($name) {		
 		global $menu_list;
 		
 		if (isset($menu_list[$name]))
 			return $menu_list[$name];
 			
-		return array();
-		
+		return array();		
 	}
 	
 	/**
@@ -247,8 +239,7 @@
 	 * @param $item the menu item to check
 	 * @return bool true or false if the menu item is selected or not
 	 */
-	function checkCurrentMenuUrl($menu,$item) {
-				
+	function checkCurrentMenuUrl($menu,$item) {				
 		global $menu_list;
 		
 		if (isset($menu_list[$menu]) && isset($menu_list[$menu][$item]))
@@ -264,8 +255,7 @@
 	 * @param $menu the menu to inspect
 	 * @return mixed the menu item select or false otherwise
 	 */
-	function getCurrentMenuItem($menu) {
-		
+	function getCurrentMenuItem($menu) {		
 		global $menu_list;
 		$currentUrl = Url::fullUrl();
 		
@@ -279,17 +269,14 @@
 		return false;
 	}
 	
-	function minifyHtml($html=null) {
-		
+	function minifyHtml($html=null) {		
 		if (!is_null($html) && is_string($html))
 			return Minify_HTML::minify($html);
 
-		return null;
-        		
+		return null;        		
 	}
 	
-	function minifyCss($css,$options=array()) {
-		
+	function minifyCss($css,$options=array()) {		
 		if (!is_null($css) && is_string($css))
 			return Minify_CSS::minify($css,$options);
 

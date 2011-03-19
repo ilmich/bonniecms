@@ -1,4 +1,4 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 	
 	class HtmlTemplate extends Template {
@@ -7,7 +7,7 @@
 		
 		public function __construct($template) {			
 			parent::__construct($template);			
-			$this->metaHeaders = "";
+			$this->metaHeaders = '';
 			//set current url
 			$this->currentUrl = Url::fullUrl();
 		}
@@ -20,8 +20,7 @@
 			$this->_metaHeaders = array_merge($this->_metaHeaders,$metas);
 		}
 		
-		public function render($filename=null) {
-			
+		public function render($filename=null) {			
 			//render metatag only first time			
 			if ($this->metaHeaders === '' && !empty($this->_metaHeaders)) {				
 				foreach ($this->_metaHeaders as $key => $value) {
@@ -30,6 +29,5 @@
 			}				
 			
 			return parent::render($filename);
-		}
-		
+		}		
 	}

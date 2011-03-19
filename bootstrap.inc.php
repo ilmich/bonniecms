@@ -1,19 +1,19 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php	
 		
-	require_once "cmsfunctions.php";	
+	require_once 'cmsfunctions.php';	
 	
 	//add cms classpath
-	addClasspath(DOC_ROOT."classes/");
+	addClasspath(DOC_ROOT.'classes/');
 	
 	//init cms
 	Cms::getCms()->init();	
 	
 	//load lang files
-	Lang::loadMessages("core");
-	Lang::loadMessages("menu");
+	Lang::loadMessages('core');
+	Lang::loadMessages('menu');
 	
 	//load menus
-	require_once(getDataDir()."menus.php");	
+	require_once(getDataDir().'menus.php');	
 	
 	

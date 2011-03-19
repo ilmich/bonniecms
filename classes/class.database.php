@@ -1,7 +1,7 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 
-	require_once CLYDEPHP_VENDOR."pecora/pecora.php";
+	require_once CLYDEPHP_VENDOR.'pecora/pecora.php';
 		
 	class Database {
 				
@@ -13,6 +13,5 @@
 			}
 			
 			return self::$me[$name];
-		}
-		
+		}		
 	}
