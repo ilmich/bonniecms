@@ -1,4 +1,4 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 
 	class ArrayUtils {
@@ -10,8 +10,7 @@
 		 * @param mixed $key
 		 * @return array 
 		 */
-		public static function gimme($arr, $key = null)
-		{
+		public static function gimme($arr, $key = null) {
 			if(is_null($key))
 				$key = current(array_keys($arr));
 		
@@ -35,8 +34,7 @@
 		 * @param $level the start level		 * 
 		 * @return string the resulting xml
 		 */
-		public static function toXml($array, $tag='root', $head=true, $charset='utf-8', $tab='  ', $level=0) 
-		{
+		public static function toXml($array, $tag='root', $head=true, $charset='utf-8', $tab='  ', $level=0) {
 			$result  = ($level==0 && $head) ? '<?xml version="1.0" encoding="' . $charset . '"?>' . "\n" : '';
 			$nlevel  = ($level+1);
 			$result .= str_repeat($tab, $level) . '<' . $tag . '>' . "\n";
@@ -62,6 +60,6 @@
 				}
 			}
 			return $result . str_repeat($tab, $level) . '</' . $tag . '>' . "\n";
-		}
-		
+		}		
 	}
+	

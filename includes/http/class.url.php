@@ -1,11 +1,10 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 
 	class Url {
 		
 		// Computes the *full* URL of the current page (protocol, server, path, query parameters, etc)
-		public static function fullUrl()
-		{
+		public static function fullUrl() {
 			$s = empty($_SERVER['HTTPS']) ? '' : ($_SERVER['HTTPS'] == 'on') ? 's' : '';
 			$protocol = substr(strtolower($_SERVER['SERVER_PROTOCOL']), 0, strpos(strtolower($_SERVER['SERVER_PROTOCOL']), '/')) . $s;
 			$port = ($_SERVER['SERVER_PORT'] == '80') ? '' : (":".$_SERVER['SERVER_PORT']);
@@ -14,8 +13,7 @@
 		
 		// Processes mod_rewrite URLs into key => value pairs
 		// See .htacess for more info.
-		public static function pickOff($grab_first = false, $sep = '/')
-		{
+		public static function pickOff($grab_first = false, $sep = '/') {
 			$ret = array();
 			$arr = explode($sep, trim($_SERVER['REQUEST_URI'], $sep));
 			
@@ -36,8 +34,7 @@
 		 * 
 		 * @param $url
 		 */
-		public static function encode($url) {
-			
+		public static function encode($url) {			
 			$reserved = array(
 					":" => '!%3A!ui',
 					"/" => '!%2F!ui',
@@ -60,14 +57,13 @@
 					"%" => '!%25!ui',
 				);
 				
-				$url = rawurlencode(utf8_encode($url));
-				$url = preg_replace(array_values($reserved), array_keys($reserved), $url);
+			$url = rawurlencode(utf8_encode($url));
+			$url = preg_replace(array_values($reserved), array_keys($reserved), $url);
 				
-				return $url;
-			}
+			return $url;
+		}
 
-			public static function htmlEncode($url) {
-				return self::encode(htmlentities($url));
-			}
-				
+		public static function htmlEncode($url) {
+			return self::encode(htmlentities($url));
+		}				
 	}

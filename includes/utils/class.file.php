@@ -1,16 +1,14 @@
-<?php if (!defined('CLYDEPHP')) die("Direct access not allowed") ;?>
+<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 
 	class File {
-		
-	public static function lock($fileName,$check=true, $retry=null,$polling=1) {
-			
-			
+				
+		public static function lock($fileName,$check=true, $retry=null,$polling=1) {			
 			if ($check && !file_exists($fileName)) {
-				throw new ClydePhpException("Unable to lock: $fileName not found");	
+				throw new ClydePhpException('Unable to lock: $fileName not found');	
 			}
 			
-			$lockDir = $fileName.".lck";			
+			$lockDir = $fileName.'.lck';			
 			
 			$fp=false;		
 			if(!is_int($polling) || $polling < 1) 
@@ -23,9 +21,6 @@
 					$retry = 10;
 				}
 			}		
-			/**
-			 * Code section
-			 */
 			
 			// Create the directory and hang in the case of a preexisting lock
 			while(!($fp = @mkdir($lockDir)) && $retry-->0) {							
@@ -39,7 +34,7 @@
 		
 		public static function release($fileName) {
 				
-			$lockDir = $fileName.".lck";
+			$lockDir = $fileName.'.lck';
 			
 			// Delete the directory with the extension '.lck'
 			if(!@rmdir($lockDir))
@@ -50,8 +45,7 @@
 		}
 		
 		// Returns a file's mimetype based on its extension
-		public static function mimeType($filename, $default = 'application/octet-stream')
-		{
+		public static function mimeType($filename, $default = 'application/octet-stream') {
 			$mime_types = array('323'     => 'text/h323',
 		                            'acx'     => 'application/internet-property-stream',
 		                            'ai'      => 'application/postscript',
@@ -247,6 +241,6 @@
 		                            'zip'     => 'application/zip');
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			return isset($mime_types[$ext]) ? $mime_types[$ext] : $default;
-		}
-				
+		}				
 	}
+	
