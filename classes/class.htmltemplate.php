@@ -20,14 +20,12 @@
 			$this->_metaHeaders = array_merge($this->_metaHeaders,$metas);
 		}
 		
-		public function render($filename=null) {			
-			//render metatag only first time			
-			if ($this->metaHeaders === '' && !empty($this->_metaHeaders)) {				
-				foreach ($this->_metaHeaders as $key => $value) {
-					$this->metaHeaders .= HTML::meta($key,$value)."\n";
-				}
-			}				
+		public function render() {			
+			//render metatag			
+			foreach ($this->_metaHeaders as $key => $value) {
+				$this->metaHeaders .= HTML::meta($key,$value)."\n";
+			}
 			
-			return parent::render($filename);
+			return parent::render();
 		}		
 	}

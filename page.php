@@ -67,10 +67,10 @@
 		$tpl->fromArray($page);
 		
 		//if filesystem mode is activated, load and render the page
-		if (isset($contentFile)) $tpl->content=$tpl->render($contentFile);
+		if (isset($contentFile)) $tpl->content=$tpl->renderFile($contentFile);
 		
 		//load and render the component template
-		$tpl->mainBody = $tpl->render(findTemplate('page.php',$template));	
+		$tpl->mainBody = $tpl->renderFile(findTemplate('page.php',$template));	
 		
 		$tpl->pageId = $pageId;
 		
