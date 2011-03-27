@@ -46,21 +46,21 @@
 			return BeanUtils::fromArray($this,$arr);
 		}
 	
-		public function render($filename=null) {			 
-			extract($this->_data,EXTR_SKIP);
-	
-			if (is_null($filename)) {
-				$filename = $this->_fileName;
-			}
+		public function render() {		
+			return $this->renderFile($this->_fileName);					 
+		}
+		
+		public function renderFile($filename) {
+			extract($this->_data,EXTR_SKIP);			
 			
 			if (!is_readable($filename)) {
-				throw new TemplateException('Template '.$filename.' not found');
+				return 'Template '.$filename.' not found';
 			}		
 			ob_start();
 	
 			include $filename;
 			 
-			return ob_get_clean();			 
+			return ob_get_clean();
 		}
 	
 		public function __toString() {

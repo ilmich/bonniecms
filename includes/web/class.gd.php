@@ -168,13 +168,15 @@
 		}
 	
 		// code from http://www.ultramegatech.com/blog/2008/12/creating-a-captcha-php/
-		public function creteCaptcha($code,$width, $height) {				
+		public function creteCaptcha($code,$width, $height,$font='mitra.ttf') {				
 			// colors
 			$r = mt_rand(160, 255);
 			$g = mt_rand(160, 255);
 			$b = mt_rand(160, 255);
 			// create handle for new image
 			$this->im = imagecreate($width, $height);
+			$this->width = $width;
+			$this->height = $height;
 			// create color handles
 			$background = imagecolorallocate($this->im, $r, $g, $b);
 			$text = imagecolorallocate($this->im, $r-128, $g-128, $b-128);
@@ -190,7 +192,7 @@
 					$angle = mt_rand(330, 360);
 				}
 				// "arial.ttf" can be replaced by any TTF font file stored in the same directory as the script
-				imagettftext($this->im, mt_rand(18, 22), $angle, ($i * 18)-8, mt_rand(20, 25), $text, "carbon.ttf", substr($code, ($i - 1), 1));
+				imagettftext($this->im, mt_rand(18, 22), $angle, ($i * 18)-8, mt_rand(20, 25), $text, $font, substr($code, ($i - 1), 1));
 			}
 				
 			// draw a line through the text

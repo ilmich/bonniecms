@@ -118,6 +118,22 @@
 			return false;			
 		}
 		
+		public function isGet() {
+			return $this->method == 'GET';
+		}
+		
+		public function isPost() {
+			return $this->method == 'POST';
+		}
+		
+		public function isPut() {
+			return $this->method == 'PUT';
+		}
+		
+		public function isDelete() {
+			return $this->method == 'DELETE';
+		}
+		
 		public function getRemoteAddr() {
 			return $this->getHeader('REMOTE-ADDR');
 		}

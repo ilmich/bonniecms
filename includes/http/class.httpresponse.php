@@ -81,7 +81,7 @@
 			return $this->_mimetype;
 		}
 		
-		private function getStatusCodeMessage($status) {
+		public function getStatusCodeMessage($status) {
 			// these could be stored in a .ini file and loaded
 			// via parse_ini_file()... however, this will suffice
 			// for an example
