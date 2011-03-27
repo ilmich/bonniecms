@@ -4,7 +4,7 @@
 	class Cms {
 		
 		private static $me=null;
-		private $_cache = null; //cache manager
+		private $_cache = null; //cache manager		
 				
 		private function __construct() {
 						
@@ -95,6 +95,16 @@
 			EventManager::getInstance()->getEvent('sessionStart')->raise();
 			
 			return $this;
+		}
+		
+		public function putInSession($key,$value) {		
+			Session::getInstance()->setValue($key,$value);
+			
+			return $this;
+		}
+		
+		public function getFromSession($key) {
+			return Session::getInstance()->getValue($key);
 		}
 		
 		public function endSession() {
