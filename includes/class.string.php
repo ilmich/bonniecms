@@ -9,11 +9,7 @@
 		}
 	
 		// Creates a friendly URL slug from a string
-		public static function slugify($str) {
-			if (is_null($str)) {
-				return null;
-			}
-			
+		public static function slugify($str) {			
 			$str = preg_replace('/[^a-zA-Z0-9 -]/', '', $str);
 			$str = strtolower(str_replace(' ', '-', trim($str)));
 			$str = preg_replace('/-+/', '-', $str);
