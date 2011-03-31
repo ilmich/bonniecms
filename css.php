@@ -1,45 +1,50 @@
 <?php
-		require_once 'includes/master.inc.php';		
-		require_once CLYDEPHP_VENDOR.'minify/CSS.php';		
 
-		$req = Cms::getHttpRequest();
-				
-		$filename = String::slugify($req->getParam('css'));		
+	require_once 'includes/master.inc.php';		
+	require_once CLYDEPHP_VENDOR.'minify/CSS.php';		
+
+	$req = Cms::getHttpRequest();//get request
+	if ($req->isGet()) { //component accept only get request
+		$resp = new HttpResponse('text/css'); //new empty response				
+		$filename = String::slugify($req->getParam('css'));	//get css name	
 		
-		$resp = new HttpResponse('text/css');
-		if(is_null($filename)) {
-			$resp->setStatus(400)->setBody('No filename specified')->send();
+		if($filename ==='') {
+			$resp->setStatus(400)
+				 ->setBody('No filename specified')
+				 ->send();
 			exit(-1);
 		}		
 				
 		$conf = getCmsConfig(null,'css');
 		$ch = Cms::getCacheManager();
 		$css = null;
-		if ($ch) {
+		if ($ch) { //check cache for previous css
 			$css = $ch->get($filename,'css');	
 		}		
 	
 		if (is_null($css)) {					
 			if (!isset($conf[$filename])) {
-				$resp->setStatus(400)->setBody('Css $filename not configured')->send();
+				$resp->setStatus(400)
+					 ->setBody('Css $filename not configured')
+					 ->send();
 				exit(-1);
 			}
 			
 			if (!isset($conf[$filename]['files']) || empty($conf[$filename]['files'])) {
-				$resp->setStatus(400)->setBody('No css files to load for style $filename')->send();
+				$resp->setStatus(400)
+					 ->setBody('No css files to load for style $filename')
+					 ->send();
 				exit(-1);
 			}
-				
-			$css = '';
-				
+			//load all css files	
 			foreach ($conf[$filename]['files'] as $file) {
 				$css .= @file_get_contents($file);
 			}						
-			
+			//minify css
 			if (isset($conf['minify']) && $conf['minify'])
 				$css = minifyCss($css,$conf[$filename]);
-
-			if ($ch) {				
+	
+			if ($ch) { //put result in cache
 				$ch->put($filename,$css,'css');
 			}
 			
@@ -49,4 +54,12 @@
 				->setBody($css);
 				
 		Cms::sendHttpResponse($resp);				
-		
+	} else {
+		//create new response with error
+		$resp = new HttpResponse();						
+		$resp->setStatus(405)
+			 ->setBody($resp->getStatusCodeMessage(405))
+			 ->send();
+		exit(-1);		
+	}
+	

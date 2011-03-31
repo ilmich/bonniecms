@@ -1,7 +1,7 @@
 <?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
 
-	define('BONNIECMS_VERSION','20110301');
+	define('BONNIECMS_VERSION','20110331');
 
 	define('MENU_LIST',1);
 	define('MENU_SIMPLE',2);
@@ -13,7 +13,7 @@
 	 * Useful alias functions for template designer, that reduce php
 	 * code in template
 	 * 
-	*/
+	*/	
 	function __text($key) {
 		echo Lang::getMessage($key);
 	}
