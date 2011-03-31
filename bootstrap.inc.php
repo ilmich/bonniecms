@@ -7,7 +7,7 @@
 	addClasspath(DOC_ROOT.'classes/');
 	
 	//init cms
-	Cms::getCms()->init();	
+	Cms::init();	
 	
 	//load lang files
 	Lang::loadMessages('core');

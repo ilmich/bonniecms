@@ -2,9 +2,9 @@
 
 	require_once 'includes/master.inc.php';		
 	
-	$req = Cms::getCms()->getHttpRequest();	
+	$req = Cms::getHttpRequest();	
 	
-	$resp = Cms::getCms()->getCachedHttpResponse($req);
+	$resp = Cms::getCachedHttpResponse();
 	
 	if (is_null($resp)) {		
 		$resp = new HttpResponse('text/html');	
@@ -83,8 +83,8 @@
 			$resp->setBody($tpl->render());
 		}
 		
-		Cms::getCms()->setCachedHttpResponse($resp);
+		Cms::setCachedHttpResponse($resp);
 	}
 	
-	Cms::getCms()->sendHttpResponse($resp);
+	Cms::sendHttpResponse($resp);
 

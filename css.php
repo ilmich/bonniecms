@@ -2,7 +2,7 @@
 		require_once 'includes/master.inc.php';		
 		require_once CLYDEPHP_VENDOR.'minify/CSS.php';		
 
-		$req = Cms::getCms()->getHttpRequest();
+		$req = Cms::getHttpRequest();
 				
 		$filename = String::slugify($req->getParam('css'));		
 		
@@ -13,7 +13,7 @@
 		}		
 				
 		$conf = getCmsConfig(null,'css');
-		$ch = Cms::getCms()->getCacheManager();
+		$ch = Cms::getCacheManager();
 		$css = null;
 		if ($ch) {
 			$css = $ch->get($filename,'css');	
@@ -48,5 +48,5 @@
 		$resp->addHeader('Content-Length', strlen($css))				
 				->setBody($css);
 				
-		Cms::getCms()->sendHttpResponse($resp);				
+		Cms::sendHttpResponse($resp);				
 		

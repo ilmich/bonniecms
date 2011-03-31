@@ -1,24 +1,15 @@
 <?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
 <?php
-
+	
 	class Cms {
-		
-		private static $me=null;
-		private $_cache = null; //cache manager		
 				
-		private function __construct() {
-						
-		}
+		private static $_cache = null; //cache manager				
 		
-		public static function getCms() {
-			if(is_null(self::$me)) {
-				self::$me = new Cms();
-			}
-			
-			return self::$me;
-		}		
-		
-		public function configure() {			
+		/**
+		 * Load main configuration file and all files in conf/ dir
+		 * 
+		 */
+		public static function configure() {			
 			$env = $_SERVER['HTTP_HOST'];			
 			$glob = Config::getConfig();
 			
@@ -49,81 +40,125 @@
 						$name = basename($conf,'.php');
 						$glob->$name = $arr;
 					}
-				}
-			return $this;		
+				}					
 		}	
 		
+		/**
+		 * Load all configured plugins 
+		 * 
+		 */
 		public function loadPlugins() {			
 			if (is_array(Config::get('plugins'))) {
 				foreach (Config::get('plugins') as $plugin) {
 					require_once getPluginsDir().$plugin.'.php';
 				}
-			}
-			return $this;
+			}			
 		}
 		
-		public function initLang() {			
+		/**
+		 * Initialize language system
+		 * 
+		 */
+		public static function initLang() {
+			$glob = Config::getConfig();			
 			//load lang
-			if (!is_null($this->getHttpRequest()->getParam('lang'))) {
-				Lang::setLocale($this->getHttpRequest()->getParam('lang'));
+			if (!is_null(self::getHttpRequest()->getParam('lang'))) {
+				Lang::setLocale(self::getHttpRequest()->getParam('lang'));
 			}else {
-				$conf = getCmsConfig();
-				Lang::setLocale($conf['LANG']);
-			}
-			
-			return $this;			
+				Lang::setLocale($glob->site['LANG']);
+			}						
 		}
 		
-		public function init() {			
-			$this->configure()->loadPlugins()->initLang()->startSession();			
+		/**
+		 * Initialize cms
+		 * 
+		 */
+		public static function init() {			
+			
+			self::configure();
+			self::loadPlugins();
+			self::initLang();
+			self::startSession();			
 			
 			//configure cache
 			if (getCmsConfig("CACHE")) {
-				$this->_cache = Cache::factory(array('type' => 'file', 'path' => APP_ROOT.'/cache/', 'expiration' => getCmsConfig('CACHE_TIME')));
+				self::$_cache = Cache::factory(array('type' => 'file', 'path' => APP_ROOT.'/cache/', 'expiration' => getCmsConfig('CACHE_TIME')));
 			}						
 			
 			//raise processRequest event
-			EventManager::getInstance()->getEvent('processRequest')->raise($this->getHttpRequest());						
+			EventManager::getInstance()->getEvent('processRequest')->raise(self::getHttpRequest());						
 		}
 		
-		public function startSession($name='bonniecms') {			
+		/**
+		 * Start cms session
+		 * 
+		 * @param string $name the session name
+		 */
+		public static function startSession($name='bonniecms') {			
 			//register shutdown function
-			register_shutdown_function(array($this,'endSession'));
+			register_shutdown_function(array('Cms','endSession'));
 			
 			Session::getInstance()->start($name);
 			//launch session start event
-			EventManager::getInstance()->getEvent('sessionStart')->raise();
-			
-			return $this;
+			EventManager::getInstance()->getEvent('sessionStart')->raise();			
 		}
 		
-		public function putInSession($key,$value) {		
-			Session::getInstance()->setValue($key,$value);
-			
-			return $this;
+		/**
+		 * Put value in session
+		 * 
+		 * @param string $key
+		 * @param mixed_type $value
+		 */
+		public static function putInSession($key,$value) {		
+			Session::getInstance()->setValue($key,$value);		
 		}
 		
-		public function getFromSession($key) {
+		/**
+		 * Get value from session
+		 * 
+		 * @param string $key
+		 * @return mixed_type the value
+		 */
+		public static function getFromSession($key) {
 			return Session::getInstance()->getValue($key);
 		}
 		
-		public function endSession() {
+		/**
+		 * End cms session
+		 * 
+		 */
+		public static function endSession() {
 			EventManager::getInstance()->getEvent('sessionEnd')->raise();
 		}
 		
-		public function getHttpRequest() {		
+		/**
+		 * Get http request
+		 * 
+		 * @return HttpRequest the current request
+		 */
+		public static function getHttpRequest() {		
 			return HttpRequest::getHttpRequest();
 		}
 		
-		public function sendHttpResponse($res) {			
-			EventManager::getInstance()->getEvent('processResponse')->raise($this->getHttpRequest(),$res);		
+		/**
+		 * Send http response
+		 * 
+		 * @param HttpResponse $res the response to send
+		 */
+		public static function sendHttpResponse($res) {			
+			EventManager::getInstance()->getEvent('processResponse')->raise(self::getHttpRequest(),$res);		
 			
 			$res->send();			
 		}
 		
-		public function getCachedHttpResponse($res) {			
-			if (!is_null($this->_cache)) {
-				$res = $this->_cache->get($this->getHttpRequest()->getRequestUri());				
+		/**
+		 * Check if exist in cache a response for current url request
+		 *
+		 * @return HttpResponse the cached response or null otherwise
+		 */
+		public static function getCachedHttpResponse() {			
+			if (!is_null(self::$_cache)) {
+				$res = self::$_cache->get(self::getHttpRequest()->getRequestUri());				
 				
 				if (!is_null($res) && $res instanceof HttpResponse) {
 					return $res;
@@ -132,15 +167,23 @@
 			return null;			
 		}
 		
-		public function setCachedHttpResponse($res) {
-			if (!is_null($this->_cache)) {
-				$this->_cache->put($this->getHttpRequest()->getRequestUri(),$res);
+		/**
+		 * Put in cache the response
+		 * 
+		 * @param HttpResponse $res the response to cache
+		 */
+		public static function setCachedHttpResponse($res) {
+			if (!is_null(self::$_cache)) {
+				self::$_cache->put(self::getHttpRequest()->getRequestUri(),$res);
 			}
-			
-			return $this;
 		}
 		
-		public function getCacheManager() {			
-			return 	$this->_cache;
+		/**
+		 * Get cms cache manager
+		 * 
+		 * @return mixed_object the cache manager		 
+		 */
+		public static function getCacheManager() {			
+			return 	self::$_cache;
 		}		
 	}
