@@ -166,6 +166,53 @@
 				$y = 0;
 			return $this->crop($x, $y, $w, $h);
 		}
+		
+		public function gaussianBlur() {
+			$matrix = array(array(1.0, 2.0, 1.0), 
+							  array(2.0, 4.0, 2.0), 
+							  array(1.0, 2.0, 1.0));
+			$this->_applyConvolutionMatrix($matrix);
+		}
+		
+		public function sharpen() {
+			$matrix = array(array(0,-1, 0), 
+							  array(-1, 5, -1), 
+							  array(0, -1, 0));
+			$this->_applyConvolutionMatrix($matrix);
+		}
+		
+		public function blur() {
+			$matrix = array(array(1,1, 1), 
+							  array(1, 1, 1), 
+							  array(1, 1, 1));
+			$this->_applyConvolutionMatrix($matrix);
+		}
+		
+		public function edgeEnhance() {
+			$matrix = array(array(0,0, 0), 
+							  array(-1, 1, 0), 
+							  array(0, 0, 0));
+			$this->_applyConvolutionMatrix($matrix);
+		}
+		
+		public function edgeDetect() {
+			$matrix = array(array(0,1, 0), 
+							  array(1, -4, 1), 
+							  array(0, 1, 0));
+			$this->_applyConvolutionMatrix($matrix);
+		}
+		
+		public function emboss() {
+			$matrix = array(array(-2,-1, 0), 
+							  array(-1, 1, 1), 
+							  array(0, 1, 2));
+			$this->_applyConvolutionMatrix($matrix);
+		}
+				
+		private function _applyConvolutionMatrix($matrix) {
+			$divisor = array_sum(array_map('array_sum', $matrix));
+			imageconvolution($this->im, $matrix, $divisor, 0);
+		}
 	
 		// code from http://www.ultramegatech.com/blog/2008/12/creating-a-captcha-php/
 		public function creteCaptcha($code,$width, $height,$font='mitra.ttf') {				
@@ -174,7 +221,7 @@
 			$g = mt_rand(160, 255);
 			$b = mt_rand(160, 255);
 			// create handle for new image
-			$this->im = imagecreate($width, $height);
+			$this->im = imagecreatetruecolor($width, $height);
 			$this->width = $width;
 			$this->height = $height;
 			// create color handles
@@ -198,9 +245,8 @@
 			// draw a line through the text
 			imageline($this->im, 0, mt_rand(5, $height-5), $width, mt_rand(5, $height-5), $text);
 	
-			// blur the image
-			$gaussian = array(array(1.0, 2.0, 1.0), array(2.0, 4.0, 2.0), array(1.0, 2.0, 1.0));
-			imageconvolution($this->im, $gaussian, 16, 0);
+			// blur the image			
+			$this->gaussianBlur();
 	
 			// add a border for looks
 			imagerectangle($this->im, 0, 0, $width - 1, $height - 1, $text);
