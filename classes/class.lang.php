@@ -27,9 +27,12 @@
 			return self::getLang()->locale;			
 		}
 		
-		public static function loadMessages($name) {
+		public static function loadMessages($name,$basePath=null) {
 			$instance = self::getLang();
-			$filename = APP_ROOT.'lang/'.$instance->locale.'/'.$name.'.php';
+			if (is_null($basePath)) {
+				$basePath = APP_ROOT;
+			}
+			$filename = $basePath.'lang/'.$instance->locale.'/'.$name.'.php';
 			if (!is_readable($filename)) {
 				return false;
 			}			

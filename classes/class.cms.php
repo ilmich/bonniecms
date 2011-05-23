@@ -3,26 +3,30 @@
 	
 	class Cms {
 				
-		private static $_cache = null; //cache manager				
+		private static $_cache = null; //cache manager
+		private static $_template = null;				
 		
 		/**
 		 * Load main configuration file and all files in conf/ dir
 		 * 
 		 */
-		public static function configure() {			
+		public static function configure($basePath=null) {			
 			$env = $_SERVER['HTTP_HOST'];			
 			$glob = Config::getConfig();
+			if(!$basePath) {
+				$basePath = APP_ROOT;
+			}
 			
 			//check main config file site.php
-			if (!is_readable(APP_ROOT.'/configuration.inc.php') && !is_readable(APP_ROOT.'/configuration.'.$env.'.inc.php')) {
+			if (!is_readable($basePath.'/configuration.inc.php') && !is_readable($basePath.'/configuration.'.$env.'.inc.php')) {
 				throw new ClydePhpException('Unable to load main configuration file');
 			}
 
 			//load main configuration
-			if (is_readable(APP_ROOT.'/configuration.'.$env.'.inc.php')) {
-				$arr = require_once APP_ROOT.'/configuration.'.$env.'.inc.php';
+			if (is_readable($basePath.'/configuration.'.$env.'.inc.php')) {
+				$arr = require_once $basePath.'/configuration.'.$env.'.inc.php';
 			}else {
-				$arr = require_once APP_ROOT.'/configuration.inc.php';	
+				$arr = require_once $basePath.'/configuration.inc.php';	
 			}
 			
 			if (is_array($arr)) {				
@@ -67,7 +71,7 @@
 			}else {
 				Lang::setLocale($glob->site['LANG']);
 			}						
-		}
+		}		
 		
 		/**
 		 * Initialize cms
@@ -78,7 +82,14 @@
 			self::configure();
 			self::loadPlugins();
 			self::initLang();
-			self::startSession();			
+			self::startSession();
+
+			//set active template
+			if (!is_null(self::getHttpRequest()->getParam('template'))) {
+				self::$_template = self::getHttpRequest()->getParam('template');
+			}else {
+				self::$_template = getCmsConfig('TEMPLATE');
+			}
 			
 			//configure cache
 			if (getCmsConfig("CACHE")) {
@@ -186,4 +197,8 @@
 		public static function getCacheManager() {			
 			return 	self::$_cache;
 		}		
+		
+		public static function loadTemplate($name) {
+			return loadTemplate($name,self::$_template);
+		}
 	}

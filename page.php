@@ -53,7 +53,7 @@
 			$template = getTemplateName(); //get configured template
 				
 			//load main template
-			$tpl = loadTemplate('index.php',$template);
+			$tpl = Cms::loadTemplate('index.php');
 			if (is_null($tpl)) {		
 				die ('Unable to load template for rendering');		
 			}
@@ -61,6 +61,8 @@
 			if (isset($page['meta'])) {
 				$tpl->addMetaHeaders($page['meta']);
 			}
+			
+			$page['showTitle'] = (isset($page['showTitle']) ? $page['showTitle'] : true);
 			$tpl->fromArray($page); //put page into template
 			$tpl->pageId = $pageId;
 			
