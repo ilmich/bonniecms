@@ -93,7 +93,7 @@
 			
 			//configure cache
 			if (getCmsConfig("CACHE")) {
-				self::$_cache = Cache::factory(array('type' => 'file', 'path' => APP_ROOT.'/cache/', 'expiration' => getCmsConfig('CACHE_TIME')));
+				self::$_cache = Cache::factory(array('type' => 'file', 'path' => getDataDir().'/cache/', 'expiration' => getCmsConfig('CACHE_TIME')));
 			}						
 			
 			//raise processRequest event

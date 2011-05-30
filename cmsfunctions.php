@@ -96,10 +96,7 @@
 	 * @param $absolute retrieve absolute logs dir or relative logs dir
 	 */
 	function getLogsDir($absolute=false) {
-		if ($absolute){
-			return DOC_ROOT.'logs/';
-		}
-		return APP_ROOT.'logs/'; 
+		return getDataDir($absolute).'logs/';
 	}
 	
 	/**
