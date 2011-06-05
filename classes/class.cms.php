@@ -81,8 +81,7 @@
 			
 			self::configure();
 			self::loadPlugins();
-			self::initLang();
-			self::startSession();
+			self::initLang();			
 
 			//set active template
 			if (!is_null(self::getHttpRequest()->getParam('template'))) {
