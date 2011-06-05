@@ -48,10 +48,18 @@
 				$ch->put($filename,$css,'css');
 			}
 			
-		}				
+		}
+
+		$reqEtag = $req->getEtag();
+		$cssEtag = md5($css);
+		if (!is_null($reqEtag) && $reqEtag === $cssEtag) {
+			$resp->setStatus(304)->send();
+			exit(0);
+		}
 		
-		$resp->addHeader('Content-Length', strlen($css))				
-				->setBody($css);
+		$resp->addHeader('Content-Length', strlen($css))
+			 ->setEtag($cssEtag)				
+			 ->setBody($css);
 				
 		Cms::sendHttpResponse($resp);				
 	} else {
