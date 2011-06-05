@@ -25,7 +25,7 @@
 		if (is_null($css)) {					
 			if (!isset($conf[$filename])) {
 				$resp->setStatus(400)
-					 ->setBody('Css $filename not configured')
+					 ->setBody('Css '.$filename.' not configured')
 					 ->send();
 				exit(-1);
 			}
