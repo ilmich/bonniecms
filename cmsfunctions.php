@@ -68,14 +68,7 @@
 	}
 	
 	function getCmsConfig($key=null,$context='site') {		
-		$conf = Config::get($context);
-		if (is_null($key)) {
-			return $conf;
-		}
-		if (isset($conf[$key])) {
-			return $conf[$key];
-		} 
-		return null;
+		return Cms::getConfigKey($key,$context);
 	}
 	
 	/**

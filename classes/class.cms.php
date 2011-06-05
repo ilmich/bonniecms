@@ -134,6 +134,17 @@
 			return Session::getInstance()->getValue($key);
 		}
 		
+		public static function getConfigKey($key=null,$context='site') {
+			$conf = Config::get($context);
+			if (is_null($key)) {
+				return $conf;
+			}
+			if (isset($conf[$key])) {
+				return $conf[$key];
+			} 
+			return null;
+		}
+		
 		/**
 		 * End cms session
 		 * 
@@ -157,8 +168,7 @@
 		 * @param HttpResponse $res the response to send
 		 */
 		public static function sendHttpResponse($res) {			
-			EventManager::getInstance()->getEvent('processResponse')->raise(self::getHttpRequest(),$res);		
-			
+			EventManager::getInstance()->getEvent('processResponse')->raise(self::getHttpRequest(),$res);			
 			$res->send();			
 		}
 		
