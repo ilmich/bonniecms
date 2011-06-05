@@ -19,8 +19,7 @@
 				
 			foreach ($this->_headers as $header) {
 				header($header);
-			}
-				
+			}				
 			echo $this->_body;				
 		}
 		
@@ -62,23 +61,27 @@
 			
 			$status_header = 'HTTP/1.1 ' . $status . ' ' . $this->getStatusCodeMessage($status);
 			// set the status
-			$this->addRawHeader($status_header);
-			
+			$this->addRawHeader($status_header);			
 			return $this;			
 		}
 		
 		public function setMimeType($mime) {
 			if (is_null($mime) || !is_string($mime)) {
 				throw new ClydePhpException('MimeType must be a not null string');
-			}
-			
-			$this->_mimetype = $mime;		
-			
+			}			
+			$this->_mimetype = $mime;			
 			return $this;
 		}
 		
 		public function getMimeType() {
 			return $this->_mimetype;
+		}		
+		
+		public function setEtag($etag=null) {
+			if (!is_null($etag)) {
+				$this->addHeader('Etag',$etag);	
+			}			
+			return $this;
 		}
 		
 		public function getStatusCodeMessage($status) {

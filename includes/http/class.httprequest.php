@@ -185,6 +185,10 @@
 			
 			return $encoding;			
 		}
+		
+		public function getEtag() {
+			return $this->getHeader('If-None-Match');
+		}
 	
 		/**
 		* Return Raw HTTP Request (note: This is incomplete)
