@@ -66,7 +66,7 @@
 		public static function initLang() {
 			$glob = Config::getConfig();			
 			//load lang
-			if (!is_null(self::getHttpRequest()->getParam('lang'))) {
+			if (!is_null(self::getHttpRequest()->getParam('lang')) && self::getHttpRequest()->getParam('lang') !== '') {
 				Lang::setLocale(self::getHttpRequest()->getParam('lang'));
 			}else {
 				Lang::setLocale($glob->site['LANG']);
