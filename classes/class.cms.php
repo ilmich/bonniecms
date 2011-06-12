@@ -58,7 +58,7 @@
 				}
 			}			
 		}
-		
+
 		/**
 		 * Initialize language system
 		 * 
@@ -79,9 +79,9 @@
 		 */
 		public static function init() {			
 			
-			self::configure();
-			self::loadPlugins();
-			self::initLang();			
+			self::configure();			
+			self::initLang();
+			self::loadPlugins();			
 
 			//set active template
 			if (!is_null(self::getHttpRequest()->getParam('template'))) {
