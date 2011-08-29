@@ -16,12 +16,8 @@
 		}		
 				
 		$conf = getCmsConfig(null,'css');
-		$ch = Cms::getCacheManager();
-		$css = null;
-		if ($ch) { //check cache for previous css
-			$css = $ch->get($filename,'css');	
-		}		
-	
+		
+		$css = Cms::getCachedObject($filename,'css');		
 		if (is_null($css)) {					
 			if (!isset($conf[$filename])) {
 				$resp->setStatus(400)
@@ -42,19 +38,9 @@
 			}						
 			//minify css
 			if (isset($conf['minify']) && $conf['minify'])
-				$css = minifyCss($css,$conf[$filename]);
-	
-			if ($ch) { //put result in cache
-				$ch->put($filename,$css,'css');
-			}
-			
-		}
+				$css = minifyCss($css,$conf[$filename]);	
 
-		$reqEtag = $req->getEtag();
-		$cssEtag = md5($css);
-		if (!is_null($reqEtag) && $reqEtag === $cssEtag) {
-			$resp->setStatus(304)->send();
-			exit(0);
+			Cms::putObjectInCache($filename, $css,'css');			
 		}
 		
 		$resp->addHeader('Content-Length', strlen($css))

@@ -6,18 +6,17 @@
 	$resp = null; 
 	
 	if ($req->isGet()) { //component accept only get request
-		$resp = Cms::getCachedHttpResponse(); //get cached response
+		$resp = new HttpResponse('text/html');	//new empty response
 		
-		if (is_null($resp)) { //if respone not in cache start logic
-			$resp = new HttpResponse('text/html');	//new empty response
+		//get page id
+		$pageId = String::slugify($req->getParam('page'));
 			
-			//get page id
-			$pageId = String::slugify($req->getParam('page'));
-				
-			if ($pageId === '') {
-				$pageId = 'home';
-			}	
-			
+		if ($pageId === '') {
+			$pageId = 'home';
+		}
+
+		$body = Cms::getCachedObject($pageId, 'page');
+		if (is_null($body)) {		
 			$lang = Lang::getLocale(); // get current language
 			//check if the page is avaible on filesystem
 			if (is_readable(getDataDir().'pages/'.$pageId.'.metadata.php') || is_readable(getDataDir().'pages/'.$pageId.'.'.$lang.'.metadata.php')){		
@@ -71,8 +70,8 @@
 				$tpl->content=$tpl->renderFile($contentFile);
 			
 			//load and render the component template
-			$tpl->mainBody = $tpl->renderFile(findTemplate('page.php',$template));	
-			
+			$tpl->mainBody = $tpl->renderFile(findTemplate('page.php',$template));
+
 			//launch the onRender event
 			EventManager::getInstance()->getEvent('onRender')->raise($req,$tpl);		
 	
@@ -81,10 +80,12 @@
 				$resp->setBody(minifyHtml($tpl->render()));
 			}else {
 				$resp->setBody($tpl->render());
-			}
-			//put response in cache
-			Cms::setCachedHttpResponse($resp);
-		}		
+			}			
+						
+			Cms::putObjectInCache($pageId, $resp->getBody(),'page');			
+		} else {			
+			$resp->setBody($body);
+		}				
 	}else {
 		//create new response with error
 		$resp = new HttpResponse();						

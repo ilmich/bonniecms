@@ -167,8 +167,18 @@
 		 * @param HttpResponse $res the response to send
 		 */
 		public static function sendHttpResponse($res) {			
-			EventManager::getInstance()->getEvent('processResponse')->raise(self::getHttpRequest(),$res);			
-			$res->send();			
+			EventManager::getInstance()->getEvent('processResponse')->raise(self::getHttpRequest(),$res);
+			$md5 = md5($res->getBody());
+			$etag = self::getHttpRequest()->getEtag();
+			if ($md5 === $etag) {
+				$res = new HttpResponse();
+				$res->setStatus(304);				
+			}else {
+				$res->setEtag($md5);
+				$res->send();						
+			}
+			$res->send();
+								
 		}
 		
 		/**
@@ -198,10 +208,23 @@
 			}
 		}
 		
+		public static function putObjectInCache($key, $value, $tag = null) {
+			if (!is_null(self::$_cache)) {
+				self::$_cache->put($key,$value,$tag);
+			}
+		}
+		
+		public static function getCachedObject($key, $tag = null) {			
+			if (!is_null(self::$_cache)) {
+				return self::$_cache->get($key,$tag);				
+			}			
+			return null;			
+		}
+		
 		/**
 		 * Get cms cache manager
 		 * 
-		 * @return mixed_object the cache manager		 
+		 * @return Cache the cache manager		 
 		 */
 		public static function getCacheManager() {			
 			return 	self::$_cache;
