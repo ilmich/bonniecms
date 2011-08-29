@@ -92,5 +92,23 @@
 		        }
 		    }
 		    return true;
-		}		
+		}
+
+		public static function isNullOrEmpty($str) {
+			return is_null($str) || $str === '';
+		}
+		
+		public static function nullToEmpty($str) {
+			if (String::isNullOrEmpty($str)) {
+				return '';
+			}
+			return $str;
+		}
+		
+		public static function emptyToNull($str) {
+			if (String::isNullOrEmpty($str)) {
+				return null;
+			}
+			return $str;
+		}
 	}

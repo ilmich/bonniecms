@@ -39,6 +39,10 @@
 			return $this;
 		}
 		
+		/**
+		 * 
+		 * @return Auth
+		 */
 		public static function getAuth() {
 			return self::$me;		
 		}
@@ -74,6 +78,10 @@
 		// Takes a username and a *plain text* password
 		public function login($un, $pw) {
 			$pw = $this->createHashedPassword($pw);
+			return $this->attemptLogin($un, $pw);
+		}
+		
+		public function loginEncrypted($un, $pw) {
 			return $this->attemptLogin($un, $pw);
 		}
 	

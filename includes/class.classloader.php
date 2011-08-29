@@ -53,6 +53,9 @@
 		}
 	
 		public static function autoload($class_name) {
+			if (class_exists($class_name) || $class_name == '') {
+				return;
+			}
 			$classFile = ClassLoader::getInstance()->findFile('class.'.strtolower($class_name) . '.php');
 			if ($classFile){
 				require $classFile;

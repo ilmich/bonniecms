@@ -60,6 +60,20 @@
 				}
 			}
 			return $result . str_repeat($tab, $level) . '</' . $tag . '>' . "\n";
-		}		
+		}
+
+		public static function exportIntoFile($array,$name,$filename,$header=null) {			
+			if (!is_null($header)) {
+				$str = $header.PHP_EOL;
+			}else {
+				$str = '';
+			}
+			$str.= '<?php '.PHP_EOL;
+			$str.= '$'.$name.' = ';
+			$str.= var_export($array,true).';'.PHP_EOL;
+			$str.= 'return $'.$name.';'.PHP_EOL;
+			
+			return @file_put_contents($filename,$str);				
+		}
 	}
 	

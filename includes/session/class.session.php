@@ -78,4 +78,8 @@
 			
 			return $this;
 		}	
+		
+		public function destroy() {
+			session_destroy();
+		}
 	}

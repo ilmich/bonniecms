@@ -79,5 +79,10 @@
 		// Ex: Config::get('some_value')
 		public static function get($key) {
 			return self::getConfig()->$key;
-		}	
+		}
+
+		public static function set($key,$value) {
+			self::getConfig()->$key = $value;
+			return self::getConfig();
+		}
 	}
