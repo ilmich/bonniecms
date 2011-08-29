@@ -174,8 +174,7 @@
 				$res = new HttpResponse();
 				$res->setStatus(304);				
 			}else {
-				$res->setEtag($md5);
-				$res->send();						
+				$res->setEtag($md5);										
 			}
 			$res->send();
 								
