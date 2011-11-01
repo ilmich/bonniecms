@@ -55,6 +55,10 @@
 		echo $tpl->render();
 	}
 	
+	function __sendEvent($name) {
+		EventManager::getInstance()->getEvent($name)->raise();
+	}
+	
 	/**
 	 * common functions 
 	 * 
