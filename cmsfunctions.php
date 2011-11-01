@@ -50,6 +50,11 @@
 		echo HTML::image($src,$extra);
 	}
 	
+	function __renderStaticBlock($name) {		
+		$tpl = new Template(getBlocksDir().$name.'.php');		
+		echo $tpl->render();
+	}
+	
 	/**
 	 * common functions 
 	 * 
@@ -81,6 +86,10 @@
 			return DOC_ROOT.'data/';
 		}
 		return APP_ROOT.'data/';
+	}
+	
+	function getBlocksDir($absolute=false) {
+		return getDataDir($absolute).'blocks/';
 	}
 	
 	/**
