@@ -167,17 +167,8 @@
 		 * @param HttpResponse $res the response to send
 		 */
 		public static function sendHttpResponse($res) {			
-			EventManager::getInstance()->getEvent('processResponse')->raise(self::getHttpRequest(),$res);
-			$md5 = md5($res->getBody());
-			$etag = self::getHttpRequest()->getEtag();
-			if ($md5 === $etag) {
-				$res = new HttpResponse();
-				$res->setStatus(304);				
-			}else {
-				$res->setEtag($md5);										
-			}
-			$res->send();
-								
+			EventManager::getInstance()->getEvent('processResponse')->raise(self::getHttpRequest(),$res);			
+			$res->send();								
 		}
 		
 		/**
