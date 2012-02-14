@@ -45,8 +45,7 @@
 			if (isset($conf[$filename]['prependRelativePath']))
 				$css = Minify_CSS_UriRewriter::prepend($css, $conf[$filename]['prependRelativePath']);
 			//minify css			
-			if (isset($conf['minify']) && $conf['minify']) {
-				var_dump($conf[$filename]);	
+			if (isset($conf['minify']) && $conf['minify']) {				
 				$resource->setBody(minifyCss($css));
 			}				
 			else {
