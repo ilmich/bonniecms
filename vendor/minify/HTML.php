@@ -111,6 +111,10 @@ class Minify_HTML {
         $this->_html = preg_replace_callback('/\\s*(<pre\\b[^>]*?>[\\s\\S]*?<\\/pre>)\\s*/i'
             ,array($this, '_removePreCB')
             ,$this->_html);
+            
+        $this->_html = preg_replace_callback('/\\s*(<code\\b[^>]*?>[\\s\\S]*?<\\/code>)\\s*/i'
+            ,array($this, '_removeCodeCB')
+            ,$this->_html);
         
         // replace TEXTAREAs with placeholders
         $this->_html = preg_replace_callback(
@@ -180,6 +184,11 @@ class Minify_HTML {
     protected function _removeTextareaCB($m)
     {
         return $this->_reservePlace($m[1]);
+    }
+    
+    protected function _removeCodeCB($m)
+    {
+    	return $this->_reservePlace($m[1]);
     }
 
     protected function _removeStyleCB($m)
