@@ -22,6 +22,10 @@
 		echo String::slash(getCmsConfig('WEB_ROOT'));
 	}
 	
+	function __webRootTemplate($templateName = null) {
+		echo getTemplateWebRoot($templateName);
+	}
+	
 	function __siteName() {
 		echo getCmsConfig('SITE_NAME');
 	}
@@ -140,7 +144,7 @@
 
 	function getTemplateWebRoot($tplName=null) {
 		if (is_null($tplName)) {
-			return getWebRoot().'templates/';
+			$tplName = getCmsConfig('TEMPLATE');
 		}
 		
 		return getWebRoot().'templates/'.$tplName.'/';	
