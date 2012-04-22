@@ -9,6 +9,8 @@
 	//init cms
 	Cms::init();	
 	
+	Cms::startSession();
+	
 	//load lang files
 	Lang::loadMessages('core');
 	Lang::loadMessages('menu');
