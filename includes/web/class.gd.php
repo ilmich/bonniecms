@@ -10,7 +10,7 @@
 		public $type   = null;
 		public $mime   = null;
 	
-		public function __construct($data = null, $ext = null) {
+		public function __construct($data = null, $ext = null) {			
 			if(is_resource($data) && get_resource_type($data) == 'gd')
 				return $this->loadResource($data);
 			elseif(@file_exists($data) && is_readable($data))
@@ -19,6 +19,7 @@
 				return $this->loadString($data);
 			else
 				return false;
+				
 		}
 	
 		private function loadResource($im) {
@@ -93,7 +94,7 @@
 	
 		// Return image data as a string.
 		// Is there a way to do this without using output buffering?
-		public function __tostring($type = 'jpg', $quality = 75) {
+		public function tostring($type = 'jpg', $quality = 75) {
 			ob_start();
 	
 			if($type == 'jpg' && (imagetypes() & IMG_JPG))
