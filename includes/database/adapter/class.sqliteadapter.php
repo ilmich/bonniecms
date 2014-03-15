@@ -1,5 +1,7 @@
-<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
-<?php
+<?php if (!defined('CLYDEPHP'))  { header ('HTTP/1.1 404 Not Found'); exit(1); }
+
+	if (!function_exists('sqlite_open'))
+		throw new ClydePhpException('Sqlite2 extension is missing!');
 
     class SqliteAdapter extends SqlAdapter
     {
@@ -136,12 +138,7 @@
         	if(!$this->isConnected()) $this->connect();
         	return sqlite_escape_string($var);
         }
-
-        private function notify() {
-        	$err_msg = sqlite_error_string(sqlite_last_error ($this->db));
-        	$this->notifyString($err_msg);
-        }
-
+        
         private function notifyString($msg) {
         	error_log($msg);
         	throw new DatabaseException($msg);

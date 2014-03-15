@@ -1,5 +1,4 @@
-<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
-<?php
+<?php if (!defined('CLYDEPHP'))  { header ('HTTP/1.1 404 Not Found'); exit(1); }
 
 	// A quick and dirty command line argument parser. Written in about
 	// an hour, so you might want to take this with a grain of salt or two.

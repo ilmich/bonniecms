@@ -1,5 +1,4 @@
-<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
-<?php
+<?php if (!defined('CLYDEPHP'))  { header ('HTTP/1.1 404 Not Found'); exit(1); }
 
 	class Session {
 	
@@ -31,9 +30,12 @@
 			return self::$me;
 		}
 	
-		public function start($sessionName='clydephp',$lifetime=null,$path=null,$domain=null) {		
+		public function start($sessionName='clydephp',$lifetime=null,$path=null,$domain=null,$secure=null,$httponly=null) {		
 			if (!$this->isStarted) {
-				session_set_cookie_params($lifetime,$path,$domain);
+				if (String::isNullOrEmpty($sessionName))
+					$sessionName = 'clydephp';
+				
+				session_set_cookie_params($lifetime,$path,$domain,$secure,$httponly);
 				session_name($sessionName);
 				session_start();
 				$this->isStarted = true;
@@ -45,7 +47,7 @@
 		public function getId() {
 			return session_id();
 		}
-	
+				
 		public function getSessionName() {
 			return session_name();
 		}

@@ -3,6 +3,9 @@
 	// Application flag
 	define('CLYDEPHP', true);
 	
+	// Framework version
+	define('CLYDEPHP_VERSION', '0.1.0rc1');
+	
 	// Determine our absolute document root
 	define('DOC_ROOT', dirname(realpath(__FILE__)).'/../');
 	
@@ -17,8 +20,8 @@
 	require CLYDEPHP_ROOT . '/beans.inc.php';
 	require CLYDEPHP_ROOT . '/core.inc.php';
 	require CLYDEPHP_ROOT . '/functions.inc.php';
-	require CLYDEPHP_ROOT . '/compat.inc.php'; //some emulated function for php 5.1
-	require CLYDEPHP_ROOT . '/class.string.php'; //some emulated function for php 5.1
+	require CLYDEPHP_ROOT . '/compat.inc.php'; //some emulated function
+	require CLYDEPHP_ROOT . '/class.string.php'; 
 	require CLYDEPHP_ROOT . '/class.classloader.php';  // __autoload() is contained in this file
 	
 	//register autoload function
