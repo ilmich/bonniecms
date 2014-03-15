@@ -1,7 +1,6 @@
-<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;?>
-<?php
+<?php if (!defined('CLYDEPHP'))  { header ('HTTP/1.1 404 Not Found'); exit(1); }
 
-	define('BONNIECMS_VERSION','0.4.1');
+	define('BONNIECMS_VERSION','0.5.0');
 
 	define('MENU_LIST',1);
 	define('MENU_SIMPLE',2);

@@ -1,4 +1,4 @@
-<?php if (!defined('CLYDEPHP')) die('Direct access not allowed');
+<?php if (!defined('CLYDEPHP'))  { header ('HTTP/1.1 404 Not Found'); exit(1); }
 	
 	if (is_writable(getLogsDir())) {
 		EventManager::getInstance()->getEvent('processRequest')->subscribe('logRequest');

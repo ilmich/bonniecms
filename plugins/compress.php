@@ -1,4 +1,4 @@
-<?php if (!defined('CLYDEPHP')) die('Direct access not allowed') ;
+<?php if (!defined('CLYDEPHP'))  { header ('HTTP/1.1 404 Not Found'); exit(1); }
 
 	EventManager::getInstance()->getEvent('processResponse')->subscribe('compressResponse');
 	
